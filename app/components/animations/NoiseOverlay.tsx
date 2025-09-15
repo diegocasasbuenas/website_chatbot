@@ -19,7 +19,7 @@ export default function NoiseOverlay() {
       data[i] = val;     // R
       data[i + 1] = val; // G
       data[i + 2] = val; // B
-      data[i + 3] = 30;  // Alpha (0–255) → más fuerte que antes
+      data[i + 3] = 15;  // Alpha (0–255) → más fuerte que antes
     }
 
     ctx.putImageData(imageData, 0, 0);
@@ -28,7 +28,7 @@ export default function NoiseOverlay() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 -z-5 pointer-events-none"
+      className="fixed inset-0 -z-0 pointer-events-none"
     />
   );
 }
