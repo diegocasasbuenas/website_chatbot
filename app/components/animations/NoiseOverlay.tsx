@@ -15,11 +15,11 @@ export default function NoiseOverlay() {
     const data = imageData.data;
 
     for (let i = 0; i < data.length; i += 4) {
-      const val = Math.random() * 255; // gris aleatorio
+      const val = Math.random() * 120; // gris oscuro aleatorio (0-120)
       data[i] = val;     // R
       data[i + 1] = val; // G
       data[i + 2] = val; // B
-      data[i + 3] = 15;  // Alpha (0–255) → más fuerte que antes
+      data[i + 3] = 35;  // Alpha (más visible pero sigue sutil)
     }
 
     ctx.putImageData(imageData, 0, 0);
@@ -28,7 +28,7 @@ export default function NoiseOverlay() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 -z-0 pointer-events-none"
+      className="fixed inset-0 -z-10 pointer-events-none"
     />
   );
 }

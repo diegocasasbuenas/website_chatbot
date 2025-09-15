@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
+import ClientRoot from "./ClientRoot";
 import "./globals.css";
-import BackgroundCanvas from "./components/animations/BackgroundCanvas";
-import NoiseOverlay from "./components/animations/NoiseOverlay";
 
 export const metadata: Metadata = {
   title: "Diego - AI Engineer Portfolio",
@@ -17,9 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased bg-black text-white">
-        <BackgroundCanvas />
-        <NoiseOverlay />
-        {children}
+        <ClientRoot>{children}</ClientRoot>
       </body>
     </html>
   );

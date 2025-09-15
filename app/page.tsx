@@ -16,6 +16,10 @@ export default function Home() {
       <section id="projects" className="flex items-center justify-center">
         <h2 className="text-3xl">Projects</h2>
       </section>
+
+      <section id="projects" className="flex items-center justify-center">
+        <h2 className="text-3xl">Services</h2>
+      </section>
     </main>
   );
 }
