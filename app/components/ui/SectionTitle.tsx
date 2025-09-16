@@ -10,10 +10,10 @@ export function SectionTitle({ children, className = '' }: SectionTitleProps) {
     <h1 
       className={`
         text-white 
-        text-[clamp(50px,7vw,168px)]
-        sm:text-[clamp(70px,9vw,168px)]
-        md:text-[clamp(90px,11vw,168px)]
-        lg:text-[clamp(110px,13vw,168px)]
+        text-[clamp(60px,8vw,168px)]
+        sm:text-[clamp(80px,10vw,168px)]
+        md:text-[clamp(100px,12vw,168px)]
+        lg:text-[clamp(120px,14vw,168px)]
         xl:text-[168px]
         font-[900] 
         leading-[100%] 

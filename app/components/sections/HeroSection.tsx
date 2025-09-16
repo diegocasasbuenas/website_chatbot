@@ -8,17 +8,7 @@ export function HeroSection() {
         <div className="block xl:hidden">
           <span className="block">DIEGO</span>
           <span className="block">CASASBUENAS</span>
-          <span 
-            className="block text-white italic mt-4"
-            style={{
-              fontFamily: 'var(--font-general)',
-              fontSize: 'clamp(24px, 4vw, 40px)',
-              fontWeight: 300,
-              fontStyle: 'italic',
-              lineHeight: 'normal',
-              letterSpacing: 'clamp(-1px, -0.2vw, -2px)'
-            }}
-          >
+          <span className="block text-white font-general text-[clamp(24px,5vw,48px)] font-light italic leading-normal tracking-tight mt-4">
             AI Developer
           </span>
         </div>
@@ -28,20 +18,7 @@ export function HeroSection() {
           <span className="block">
             <span className="relative inline-block">
               DIEGO
-              <span 
-                className="text-white italic absolute whitespace-nowrap"
-                style={{
-                  fontFamily: 'var(--font-general)',
-                  fontSize: 'clamp(60px, 5vw, 80px)',
-                  fontWeight: 300,
-                  fontStyle: 'italic',
-                  lineHeight: 'normal',
-                  letterSpacing: 'clamp(-3px, -0.3vw, -4px)',
-                  bottom: '0',
-                  left: '100%',
-                  marginLeft: '16px'
-                }}
-              >
+              <span className="text-white font-general text-[clamp(48px,6vw,80px)] font-light italic leading-normal tracking-tight absolute bottom-0 left-full ml-4 whitespace-nowrap">
                 AI Developer
               </span>
             </span>

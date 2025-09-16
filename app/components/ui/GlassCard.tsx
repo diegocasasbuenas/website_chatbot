@@ -28,6 +28,7 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
     const baseStyles = `
       rounded-[24px]
       transition-all duration-300
+      border border-glass bg-glass shadow-glass backdrop-blur-glass
       ${paddingStyles[padding]}
       ${hover ? 'hover:bg-white/5 hover:border-white/40 hover:shadow-lg hover:shadow-black/20' : ''}
       ${className}
@@ -37,12 +38,6 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
       <div
         ref={ref}
         className={baseStyles}
-        style={{
-          border: '1px solid rgba(255, 255, 255, 0.25)',
-          background: 'linear-gradient(91deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.05) 100%)',
-          boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.15)',
-          backdropFilter: 'blur(12px)',
-        }}
         {...props}
       >
         {children}

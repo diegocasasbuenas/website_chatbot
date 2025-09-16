@@ -30,8 +30,9 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
       transition-all duration-200
       focus:outline-none focus:ring-2 focus:ring-white/30
       disabled:opacity-50 disabled:cursor-not-allowed
+      border bg-glass shadow-glass backdrop-blur-glass
       ${fullWidth ? 'w-full' : ''}
-      ${error ? 'border-red-400/50' : ''}
+      ${error ? 'border-red-400/50' : 'border-glass'}
       ${className}
     `;
 
@@ -45,12 +46,6 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
         <input
           ref={ref}
           className={baseStyles}
-          style={{
-            border: `1px solid ${error ? 'rgba(248, 113, 113, 0.5)' : 'rgba(255, 255, 255, 0.25)'}`,
-            background: 'linear-gradient(91deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.05) 100%)',
-            boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.15)',
-            backdropFilter: 'blur(12px)',
-          }}
           {...props}
         />
         {error && (
@@ -79,8 +74,9 @@ export const GlassTextarea = forwardRef<HTMLTextAreaElement, GlassTextareaProps>
       focus:outline-none focus:ring-2 focus:ring-white/30
       disabled:opacity-50 disabled:cursor-not-allowed
       resize-none
+      border bg-glass shadow-glass backdrop-blur-glass
       ${fullWidth ? 'w-full' : ''}
-      ${error ? 'border-red-400/50' : ''}
+      ${error ? 'border-red-400/50' : 'border-glass'}
       ${className}
     `;
 
@@ -95,12 +91,6 @@ export const GlassTextarea = forwardRef<HTMLTextAreaElement, GlassTextareaProps>
           ref={ref}
           rows={rows}
           className={baseStyles}
-          style={{
-            border: `1px solid ${error ? 'rgba(248, 113, 113, 0.5)' : 'rgba(255, 255, 255, 0.25)'}`,
-            background: 'linear-gradient(91deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.05) 100%)',
-            boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.15)',
-            backdropFilter: 'blur(12px)',
-          }}
           {...props}
         />
         {error && (
