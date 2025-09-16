@@ -19,11 +19,13 @@ export default function NoiseOverlay() {
     if (!ctx) return;
 
     /**
-     * Actualiza las dimensiones del viewport
+     * Actualiza las dimensiones del viewport con overscan
      */
     const updateDimensions = () => {
-      const width = window.innerWidth;
-      const height = window.innerHeight;
+      // Usar un factor de overscan para asegurar cobertura completa
+      const overscanFactor = 1.1; // 10% extra en cada dirección
+      const width = Math.ceil(window.innerWidth * overscanFactor);
+      const height = Math.ceil(window.innerHeight * overscanFactor);
       setDimensions({ width, height });
     };
 
@@ -108,12 +110,15 @@ export default function NoiseOverlay() {
       height={dimensions.height}
       style={{
         position: 'fixed',
-        top: 0,
-        left: 0,
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
         width: '100vw',
         height: '100vh',
         zIndex: -10,
-        pointerEvents: 'none'
+        pointerEvents: 'none',
+        objectFit: 'cover',
+        objectPosition: 'center'
       }}
     />
   );
