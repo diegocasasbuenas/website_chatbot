@@ -1,15 +1,46 @@
 "use client";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 
-function Blobs({ scroll }: { scroll: number }) {
+function Blobs() {
   const materialRef = useRef<THREE.ShaderMaterial>(null);
+  const scrollProgressRef = useRef(0);
+
+  // Usar useEffect para el scroll listener directo sin useState
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const scrollHeight = document.documentElement.scrollHeight;
+      const windowHeight = window.innerHeight;
+      const docHeight = scrollHeight - windowHeight;
+      
+      if (docHeight <= 0) {
+        scrollProgressRef.current = 0;
+        return;
+      }
+      
+      scrollProgressRef.current = Math.min(Math.max(scrollTop / docHeight, 0), 1);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Ejecutar inmediatamente
+    
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useFrame((state) => {
     if (materialRef.current) {
+      // Siempre mantener el tiempo corriendo para animaciones fluidas
       materialRef.current.uniforms.uTime.value = state.clock.elapsedTime;
-      materialRef.current.uniforms.uScroll.value = scroll;
+      
+      // Usar el ref directamente sin causar re-renders
+      materialRef.current.uniforms.uScroll.value = scrollProgressRef.current;
+      
+      // Log solo ocasionalmente
+      if (Math.floor(state.clock.elapsedTime) % 3 === 0 && Math.floor(state.clock.elapsedTime * 10) % 10 === 0) {
+        console.log('📍 Scroll:', scrollProgressRef.current.toFixed(3), 'Tiempo:', state.clock.elapsedTime.toFixed(1));
+      }
     }
   });
 
@@ -37,39 +68,33 @@ function Blobs({ scroll }: { scroll: number }) {
           void main() {
             vec2 uv = vUv;
 
-            // Aumentar la amplitud del movimiento para que el scroll sea más notorio
-            // Adaptar el movimiento a saltos discretos de scroll
-            float stepScroll = floor(uScroll * 4.99) / 4.0; // 0, 0.25, 0.5, 0.75, 1
-            // Ajustar amplitudes para que los blobs no se crucen
-            float speed = 2.5; // factor de velocidad
-            float greenAmplitude = 0.18;
-            float greenVerticalAmp = 0.18;
-            float orangeAmplitude = 0.18;
-            float orangeVerticalAmp = 0.18;
-            // El verde se mueve en la parte superior izquierda
-            vec2 greenCenter = vec2(0.20 + greenAmplitude * stepScroll * speed, 0.70 - greenVerticalAmp * stepScroll * speed);
-            float greenDeform = 0.05 + 0.25 * stepScroll * speed;
-            // El naranja se mueve en la parte inferior derecha
-            vec2 orangeCenter = vec2(0.80 - orangeAmplitude * stepScroll * speed, 0.30 + orangeVerticalAmp * stepScroll * speed);
-            float orangeDeform = 0.05 + 0.25 * stepScroll * speed;
-            float orangeVisibility = 1.0;
+            // Scroll más suave y continuo
+            float smoothScroll = uScroll;
+            
+            // Posiciones que nunca se superponen completamente
+            vec2 greenCenter = vec2(0.25 + 0.1 * smoothScroll, 0.75 - 0.1 * smoothScroll);
+            vec2 orangeCenter = vec2(0.75 - 0.1 * smoothScroll, 0.25 + 0.1 * smoothScroll);
+            
+            // Deformación mínima
+            float greenDeform = 0.03 + 0.02 * smoothScroll;
+            float orangeDeform = 0.03 + 0.02 * smoothScroll;
 
-            float gField = field(uv, greenCenter, 0.33 + greenDeform, uTime * 0.8);
-            vec3 green = vec3(0.376, 0.988, 0.722);
+            float gField = field(uv, greenCenter, 0.2 + greenDeform, uTime * 0.8);
+            float oField = field(uv, orangeCenter, 0.2 + orangeDeform, uTime * 1.2 + 2.0);
 
-            float oField = field(uv, orangeCenter, 0.33 + orangeDeform, uTime * 1.2 + 2.0);
-            vec3 orange = vec3(1.0, 0.604, 0.267);
+            // Colores más brillantes pero seguros
+            vec3 green = vec3(0.3, 0.8, 0.5);        // Verde más brillante
+            vec3 orange = vec3(0.8, 0.4, 0.15);      // Naranja más brillante
+            vec3 background = vec3(0.02, 0.02, 0.02); // Fondo muy sutil
 
-            float gMask = smoothstep(0.20, 0.50, gField);
-            float oMask = smoothstep(0.20, 0.50, oField) * orangeVisibility;
+            // Máscaras un poco más intensas
+            float gMask = smoothstep(0.1, 0.3, gField) * 0.8; // máximo 80%
+            float oMask = smoothstep(0.1, 0.3, oField) * 0.8; // máximo 80%
 
-            // El blend solo en la sección central
-            float blend = stepScroll == 0.5 ? 1.0 : 0.0;
-            float deformBlend = mix(0.0, 0.25, blend);
-            float gFieldBlend = field(uv, mix(greenCenter, orangeCenter, blend), 0.33 + deformBlend, uTime);
-            float gMaskBlend = smoothstep(0.20, 0.50, gFieldBlend) * blend;
-
-            vec3 color = green * gMask + orange * oMask + mix(green, orange, blend) * gMaskBlend;
+            // Usar max() en lugar de suma para evitar saturación
+            vec3 color = background;
+            color = mix(color, green, gMask);
+            color = max(color, orange * oMask); // usar max en lugar de suma
 
             gl_FragColor = vec4(color, 1.0);
           }
@@ -86,7 +111,7 @@ function Blobs({ scroll }: { scroll: number }) {
   );
 }
 
-export default function Background({ scroll }: { scroll: number }) {
+export default function BackgroundCanvas() {
   return (
     <Canvas
       camera={{ position: [0, 0, 1], fov: 50 }}
@@ -99,7 +124,7 @@ export default function Background({ scroll }: { scroll: number }) {
         zIndex: -20,
       }}
     >
-      <Blobs scroll={scroll} />
+      <Blobs />
     </Canvas>
   );
 }

@@ -21,24 +21,23 @@
   --font-general: "General Sans", sans-serif;
 }
 
-html,
-body {
-  height: 100%;
-  margin: 0;
-  scroll-snap-type: y mandatory;
-  overflow-y: scroll;
+html {
+  /* scroll-snap-type: y mandatory; */
   scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
   font-family: var(--font-general);
 }
+
+/* section {
+  scroll-snap-align: start;
+} */
 
 h1,
 h2,
 h3,
 h4 {
   font-family: var(--font-satoshi);
-}
-
-section {
-  height: 100vh;
-  scroll-snap-align: start;
 }
