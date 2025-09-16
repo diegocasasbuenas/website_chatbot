@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import ClientRoot from "./ClientRoot";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -14,7 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased bg-black text-white">{children}</body>
+      <body className="antialiased bg-black text-white">
+        <ClientRoot>{children}</ClientRoot>
+      </body>
     </html>
   );
 }
