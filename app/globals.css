@@ -22,7 +22,7 @@
 }
 
 html {
-  /* scroll-snap-type: y mandatory; */
+  scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
 }
 
@@ -31,9 +31,9 @@ body {
   font-family: var(--font-general);
 }
 
-/* section {
+section {
   scroll-snap-align: start;
-} */
+}
 
 h1,
 h2,

@@ -2,6 +2,16 @@
 
 import { useEffect, useState, useRef } from "react";
 
+/**
+ * Hook para detectar el progreso de scroll de la página
+ * 
+ * @returns {Object} - scrollProgress: número entre 0 y 1 representando el progreso
+ *                   - scrollRef: referencia para acceso directo sin re-renders
+ * 
+ * @example
+ * const { scrollProgress } = useSimpleScroll();
+ * // scrollProgress = 0 (top) a 1 (bottom)
+ */
 export function useSimpleScroll() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const scrollRef = useRef(0);
@@ -24,8 +34,9 @@ export function useSimpleScroll() {
       setScrollProgress(progress);
     };
 
+    // Usar passive: true para mejor rendimiento
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // Ejecutar inmediatamente
+    handleScroll(); // Inicializar valor
     
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);

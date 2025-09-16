@@ -1,13 +1,28 @@
 "use client";
+
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useRef, useEffect } from "react";
+import { useSimpleScroll } from "@/hooks/useSimpleScroll";
+import { 
+  backgroundVertexShader, 
+  backgroundFragmentShader, 
+  backgroundUniforms 
+} from "./shaders";
 
-function Blobs() {
+/**
+ * Componente que renderiza los blobs animados del background
+ * 
+ * Maneja:
+ * - Detección de scroll sin causar re-renders
+ * - Animaciones continuas del shader
+ * - Actualización de uniformes en cada frame
+ */
+function AnimatedBlobs() {
   const materialRef = useRef<THREE.ShaderMaterial>(null);
   const scrollProgressRef = useRef(0);
 
-  // Usar useEffect para el scroll listener directo sin useState
+  // Detectar scroll directamente sin useState para evitar re-renders
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
@@ -24,23 +39,19 @@ function Blobs() {
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // Ejecutar inmediatamente
+    handleScroll(); // Inicializar
     
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Actualizar uniformes en cada frame de Three.js
   useFrame((state) => {
     if (materialRef.current) {
-      // Siempre mantener el tiempo corriendo para animaciones fluidas
+      // Tiempo siempre corriendo para animaciones fluidas
       materialRef.current.uniforms.uTime.value = state.clock.elapsedTime;
       
-      // Usar el ref directamente sin causar re-renders
+      // Scroll progress sin causar re-renders de React
       materialRef.current.uniforms.uScroll.value = scrollProgressRef.current;
-      
-      // Log solo ocasionalmente
-      if (Math.floor(state.clock.elapsedTime) % 3 === 0 && Math.floor(state.clock.elapsedTime * 10) % 10 === 0) {
-        console.log('📍 Scroll:', scrollProgressRef.current.toFixed(3), 'Tiempo:', state.clock.elapsedTime.toFixed(1));
-      }
     }
   });
 
@@ -49,68 +60,20 @@ function Blobs() {
       <planeGeometry args={[2, 2]} />
       <shaderMaterial
         ref={materialRef}
-        uniforms={{
-          uTime: { value: 0 },
-          uScroll: { value: 0 },
-        }}
-        fragmentShader={`
-          varying vec2 vUv;
-          uniform float uTime;
-          uniform float uScroll;
-
-          float field(vec2 uv, vec2 center, float baseRadius, float time) {
-            vec2 pos = uv - center;
-            float d = length(pos);
-            float deform = 0.05 * sin(time * 0.4 + uv.x * 8.0 + uv.y * 8.0);
-            return (baseRadius + deform) / (d * 3.0 + 0.05);
-          }
-
-          void main() {
-            vec2 uv = vUv;
-
-            // Scroll más suave y continuo
-            float smoothScroll = uScroll;
-            
-            // Posiciones que nunca se superponen completamente
-            vec2 greenCenter = vec2(0.25 + 0.1 * smoothScroll, 0.75 - 0.1 * smoothScroll);
-            vec2 orangeCenter = vec2(0.75 - 0.1 * smoothScroll, 0.25 + 0.1 * smoothScroll);
-            
-            // Deformación mínima
-            float greenDeform = 0.03 + 0.02 * smoothScroll;
-            float orangeDeform = 0.03 + 0.02 * smoothScroll;
-
-            float gField = field(uv, greenCenter, 0.2 + greenDeform, uTime * 0.8);
-            float oField = field(uv, orangeCenter, 0.2 + orangeDeform, uTime * 1.2 + 2.0);
-
-            // Colores más brillantes pero seguros
-            vec3 green = vec3(0.3, 0.8, 0.5);        // Verde más brillante
-            vec3 orange = vec3(0.8, 0.4, 0.15);      // Naranja más brillante
-            vec3 background = vec3(0.02, 0.02, 0.02); // Fondo muy sutil
-
-            // Máscaras un poco más intensas
-            float gMask = smoothstep(0.1, 0.3, gField) * 0.8; // máximo 80%
-            float oMask = smoothstep(0.1, 0.3, oField) * 0.8; // máximo 80%
-
-            // Usar max() en lugar de suma para evitar saturación
-            vec3 color = background;
-            color = mix(color, green, gMask);
-            color = max(color, orange * oMask); // usar max en lugar de suma
-
-            gl_FragColor = vec4(color, 1.0);
-          }
-        `}
-        vertexShader={`
-          varying vec2 vUv;
-          void main() {
-            vUv = uv;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-          }
-        `}
+        uniforms={backgroundUniforms}
+        fragmentShader={backgroundFragmentShader}
+        vertexShader={backgroundVertexShader}
       />
     </mesh>
   );
 }
 
+/**
+ * Canvas principal del background animado
+ * 
+ * Renderiza blobs que responden al scroll de forma fluida.
+ * Posicionado como fondo fijo detrás del contenido.
+ */
 export default function BackgroundCanvas() {
   return (
     <Canvas
@@ -121,10 +84,10 @@ export default function BackgroundCanvas() {
         left: 0,
         width: "100vw",
         height: "100vh",
-        zIndex: -20,
+        zIndex: -20, // Detrás de todo el contenido
       }}
     >
-      <Blobs />
+      <AnimatedBlobs />
     </Canvas>
   );
 }
