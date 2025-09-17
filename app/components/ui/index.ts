@@ -9,3 +9,4 @@ export { GlassCard } from './GlassCard';
 export { GlassInput, GlassTextarea } from './GlassInput';
 export { Accordion } from './Accordion';
 export { ServiceCard } from './ServiceCard';
+export { ProjectCard } from './ProjectCard';

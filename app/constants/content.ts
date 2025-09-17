@@ -66,3 +66,49 @@ export const servicesData = [
     icon: "Eye" // Phosphor icon name
   }
 ];
+
+// Datos de proyectos para la sección Projects
+export const projectsData = [
+  {
+    id: "project-1",
+    title: "RAG-Powered Legal Assistant",
+    description: "Intelligent chatbot that processes legal documents and provides contextual responses using Retrieval-Augmented Generation.",
+    image: "/images/projects/1.png"
+  },
+  {
+    id: "project-2", 
+    title: "Automated ML Pipeline",
+    description: "End-to-end machine learning pipeline for time series forecasting with automated model selection and deployment.",
+    image: "/images/projects/2.png"
+  },
+  {
+    id: "project-3",
+    title: "Real-time Object Detection",
+    description: "Computer vision application for real-time object detection and classification using advanced deep learning models.",
+    image: "/images/projects/3.png"
+  },
+  {
+    id: "project-4",
+    title: "Domain-Specific LLM Fine-tuning",
+    description: "Fine-tuned language model for specialized industry knowledge with custom training pipeline and evaluation metrics.",
+    image: "/images/projects/4.png"
+  },
+  {
+    id: "project-5",
+    title: "Business Intelligence Dashboard",
+    description: "Interactive dashboard for business analytics with real-time data visualization and automated reporting capabilities.",
+    image: "/images/projects/5.png"
+  },
+  {
+    id: "project-6",
+    title: "Multi-Agent Workflow System",
+    description: "Intelligent agent system that automates complex business workflows using MCP (Model Context Protocol) integration.",
+    image: "/images/projects/6.png"
+  },
+  {
+    id: "project-7",
+    title: "Neural Network Optimization Platform",
+    description: "Advanced platform for neural architecture search and hyperparameter optimization using evolutionary algorithms and distributed computing.",
+    image: "/images/projects/7.png"
+  }
+];
