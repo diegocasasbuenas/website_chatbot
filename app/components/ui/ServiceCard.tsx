@@ -43,28 +43,12 @@ export function ServiceCard({ title, description, iconName, index }: ServiceCard
         </div>
 
         {/* Título */}
-        <h3 
-          className="mb-4 text-white"
-          style={{
-            fontFamily: '"Satoshi Variable"',
-            fontSize: '24px',
-            fontWeight: 500,
-            lineHeight: 'normal'
-          }}
-        >
+        <h3 className="mb-4 text-white font-satoshi text-2xl font-medium leading-normal">
           {title}
         </h3>
 
         {/* Descripción */}
-        <p 
-          className="text-white flex-1"
-          style={{
-            fontFamily: '"General Sans Variable"',
-            fontSize: '16px',
-            fontWeight: 500,
-            lineHeight: 'normal'
-          }}
-        >
+        <p className="text-white flex-1 font-general text-base font-medium leading-normal">
           {description}
         </p>
       </GlassCard>

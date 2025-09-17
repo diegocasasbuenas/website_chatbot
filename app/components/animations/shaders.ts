@@ -30,8 +30,8 @@ export const backgroundFragmentShader = `
     vec2 pos = uv - center;
     float d = length(pos);
     
-    // Deformación sinusoidal para movimiento orgánico
-    float deform = 0.05 * sin(time * 0.4 + uv.x * 8.0 + uv.y * 8.0);
+    // Deformación sinusoidal para movimiento orgánico (velocidad moderada)
+    float deform = 0.05 * sin(time * 0.8 + uv.x * 8.0 + uv.y * 8.0);
     
     return (baseRadius + deform) / (d * 3.0 + 0.05);
   }
@@ -53,9 +53,9 @@ export const backgroundFragmentShader = `
     float greenDeform = 0.03 + 0.02 * smoothScroll;
     float orangeDeform = 0.03 + 0.02 * smoothScroll;
 
-    // Generar campos de los blobs con diferentes velocidades de animación
-    float gField = field(uv, greenCenter, 0.2 + greenDeform, uTime * 0.8);
-    float oField = field(uv, orangeCenter, 0.2 + orangeDeform, uTime * 1.2 + 2.0);
+    // Generar campos de los blobs con diferentes velocidades de animación (velocidad moderada)
+    float gField = field(uv, greenCenter, 0.2 + greenDeform, uTime * 1.4);
+    float oField = field(uv, orangeCenter, 0.2 + orangeDeform, uTime * 1.8 + 2.0);
 
     // Colores optimizados (brillantes pero no saturados)
     vec3 green = vec3(0.3, 0.8, 0.5);        // Verde vibrante
