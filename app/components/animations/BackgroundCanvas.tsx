@@ -50,7 +50,10 @@ function AnimatedBlobs() {
   useEffect(() => {
     const updateGeometry = () => {
       if (meshRef.current) {
-        const aspectRatio = window.innerWidth / window.innerHeight;
+        // Obtener dimensiones reales de la pantalla incluyendo Safari iPhone
+        const viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+        const viewportHeight = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+        const aspectRatio = viewportWidth / viewportHeight;
         
         // Calcular dimensiones que aseguren cobertura completa
         let width = 2;
@@ -58,10 +61,10 @@ function AnimatedBlobs() {
         
         if (aspectRatio > 1) {
           // Pantalla más ancha que alta
-          width = 2 * aspectRatio * 1.2; // Factor extra para asegurar cobertura
+          width = 2 * aspectRatio * 1.5; // Factor extra para asegurar cobertura
         } else {
           // Pantalla más alta que ancha
-          height = 2 / aspectRatio * 1.2; // Factor extra para asegurar cobertura
+          height = 2 / aspectRatio * 1.5; // Factor extra para asegurar cobertura
         }
         
         // Actualizar geometría
@@ -73,10 +76,17 @@ function AnimatedBlobs() {
     // Inicializar geometría
     updateGeometry();
 
-    // Escuchar cambios de tamaño
+    // Escuchar cambios de tamaño y orientación
     window.addEventListener("resize", updateGeometry, { passive: true });
+    window.addEventListener("orientationchange", updateGeometry, { passive: true });
+    // Para Safari iPhone cuando aparecen/desaparecen las barras
+    window.addEventListener("scroll", updateGeometry, { passive: true });
     
-    return () => window.removeEventListener("resize", updateGeometry);
+    return () => {
+      window.removeEventListener("resize", updateGeometry);
+      window.removeEventListener("orientationchange", updateGeometry);
+      window.removeEventListener("scroll", updateGeometry);
+    };
   }, []);
 
   // Actualizar uniformes en cada frame de Three.js
@@ -120,9 +130,13 @@ export default function BackgroundCanvas() {
         left: 0,
         width: "100vw",
         height: "100vh",
+        minHeight: "100dvh", // Para Safari iPhone
         zIndex: -20, // Detrás de todo el contenido
         objectFit: "cover",
-        objectPosition: "center"
+        objectPosition: "center",
+        // Asegura que cubra toda la pantalla
+        transform: "translateZ(0)", // Fuerza hardware acceleration
+        backfaceVisibility: "hidden" // Optimización
       }}
     >
       <AnimatedBlobs />

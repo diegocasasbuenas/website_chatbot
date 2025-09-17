@@ -27,8 +27,8 @@ export const GlassButton = forwardRef<HTMLButtonElement, GlassButtonProps>(
     // Definir tamaños
     const sizeStyles = {
       sm: variant === 'circular' ? 'w-10 h-10' : 'px-4 py-2 text-sm',
-      md: variant === 'circular' ? 'w-12 h-12' : 'px-6 py-3 text-base',
-      lg: variant === 'circular' ? 'w-16 h-16' : 'px-8 py-4 text-lg'
+      md: variant === 'circular' ? 'w-12 h-12' : 'px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-base',
+      lg: variant === 'circular' ? 'w-16 h-16' : 'px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg'
     };
 
     const baseStyles = `

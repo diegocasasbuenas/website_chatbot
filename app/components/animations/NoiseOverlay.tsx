@@ -22,10 +22,14 @@ export default function NoiseOverlay() {
      * Actualiza las dimensiones del viewport con overscan
      */
     const updateDimensions = () => {
+      // Obtener dimensiones reales de la pantalla incluyendo Safari iPhone
+      const viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+      const viewportHeight = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+      
       // Usar un factor de overscan para asegurar cobertura completa
-      const overscanFactor = 1.1; // 10% extra en cada dirección
-      const width = Math.ceil(window.innerWidth * overscanFactor);
-      const height = Math.ceil(window.innerHeight * overscanFactor);
+      const overscanFactor = 1.2; // 20% extra en cada dirección para Safari iPhone
+      const width = Math.ceil(viewportWidth * overscanFactor);
+      const height = Math.ceil(viewportHeight * overscanFactor);
       setDimensions({ width, height });
     };
 
@@ -66,12 +70,17 @@ export default function NoiseOverlay() {
     // Inicializar dimensiones
     updateDimensions();
 
-    // Escuchar cambios de tamaño de ventana
+    // Escuchar cambios de tamaño de ventana y orientación
     window.addEventListener("resize", handleResize, { passive: true });
+    window.addEventListener("orientationchange", handleResize, { passive: true });
+    // Para Safari iPhone cuando aparecen/desaparecen las barras
+    window.addEventListener("scroll", handleResize, { passive: true });
 
     // Cleanup del event listener
     return () => {
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("orientationchange", handleResize);
+      window.removeEventListener("scroll", handleResize);
       clearTimeout(resizeTimeout);
     };
   }, []);
@@ -110,15 +119,18 @@ export default function NoiseOverlay() {
       height={dimensions.height}
       style={{
         position: 'fixed',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
+        top: 0,
+        left: 0,
         width: '100vw',
         height: '100vh',
+        minHeight: '100dvh', // Para Safari iPhone
         zIndex: -10,
         pointerEvents: 'none',
         objectFit: 'cover',
-        objectPosition: 'center'
+        objectPosition: 'center',
+        // Asegura que cubra toda la pantalla
+        transform: "translateZ(0)", // Fuerza hardware acceleration
+        backfaceVisibility: "hidden" // Optimización
       }}
     />
   );

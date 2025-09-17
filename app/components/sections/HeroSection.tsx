@@ -35,7 +35,7 @@ export function HeroSection() {
           className="flex-1 !rounded-l-[24px] !rounded-r-none"
           fullWidth={true}
         />
-        <GlassButton className="px-6 py-5 !rounded-r-[24px] !rounded-l-none ml-2 flex-shrink-0">
+        <GlassButton className="!rounded-r-[24px] !rounded-l-none ml-2 flex-shrink-0">
           <svg width="0" height="0" style={{ position: 'absolute' }}>
             <defs>
               <linearGradient id="lightning-gradient" x1="0%" y1="0%" x2="100%" y2="100%">

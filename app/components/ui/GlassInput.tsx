@@ -25,12 +25,12 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
     
     const baseStyles = `
       rounded-[24px]
-      px-6 py-5
+      px-4 py-3 sm:px-6 sm:py-5
       text-white placeholder-white/60
       transition-all duration-200
       focus:outline-none focus:ring-2 focus:ring-white/30
       disabled:opacity-50 disabled:cursor-not-allowed
-      text-lg
+      text-base sm:text-lg
       ${fullWidth ? 'w-full' : ''}
       ${error ? 'border-red-400/50' : ''}
       ${className}

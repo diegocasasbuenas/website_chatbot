@@ -29,10 +29,32 @@ html {
 body {
   margin: 0;
   font-family: var(--font-general);
+  background-color: #000000; /* Fallback para áreas no cubiertas por el canvas */
 }
 
 section {
   scroll-snap-align: start;
+}
+
+/* Asegura que el background canvas cubra toda la pantalla */
+canvas {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  min-height: 100dvh !important; /* Para Safari iPhone */
+  z-index: -20 !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+
+/* Previene el zoom en inputs en Safari iPhone */
+input[type="text"], 
+input[type="email"], 
+input[type="password"], 
+textarea {
+  font-size: 16px;
 }
 
 h1,

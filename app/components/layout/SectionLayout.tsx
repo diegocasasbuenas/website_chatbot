@@ -41,7 +41,7 @@ export function SectionLayout({ children, sectionName, className = '' }: Section
             maxWidth: '100%'
           }}
         >
-          <span className="inline sm:hidden">D. CASASBUENAS</span>
+          <span className="inline sm:hidden pl-[30px]">D. CASASBUENAS</span>
           <span className="hidden sm:inline">DIEGO CASASBUENAS</span>
         </div>
       </div>
