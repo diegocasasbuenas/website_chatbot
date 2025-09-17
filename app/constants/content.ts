@@ -26,3 +26,43 @@ export const aboutAccordionData = [
       "What makes me unique is my positive attitude toward life and my resilience in the face of failure. Thanks to this combination, I have overcome difficult moments and transformed them into seeds for success. My passion for technology has led me to dive deep into the world of artificial intelligence, while my curiosity about business drives me to combine a technical vision with the ambition of an entrepreneur. In addition, honesty is a core value that I apply both in my work and in my daily life.\n\nI would also define myself as a dreamer, someone who strongly believes in reaching beyond the conventional. I have always felt that the traditional path was not for me and that there was something special within me that I had not fully explored—until now. This combination of vision, authenticity, and determination is what makes me unique.",
   },
 ];
+
+// Datos de servicios para la sección Services
+export const servicesData = [
+  {
+    id: "llm-finetuning",
+    title: "Fine-tuning LLMs",
+    description: "Adapting language models to specialized knowledge for concrete use cases.",
+    icon: "Brain" // Phosphor icon name
+  },
+  {
+    id: "rag-systems", 
+    title: "RAG Systems (Retrieval-Augmented Generation)",
+    description: "Implementing architectures that combine information retrieval with language models for more accurate and up-to-date responses.",
+    icon: "Database" // Phosphor icon name
+  },
+  {
+    id: "mcp-agents",
+    title: "Intelligent Agent Automation (MCP Agents)", 
+    description: "Designing autonomous workflows that integrate multiple tools and systems.",
+    icon: "Robot" // Phosphor icon name
+  },
+  {
+    id: "chatbots",
+    title: "Chatbots & Virtual Assistants",
+    description: "Developing intelligent conversational solutions for customer service, internal support, or process automation.",
+    icon: "ChatCircle" // Phosphor icon name
+  },
+  {
+    id: "data-analysis",
+    title: "Data Analysis & Data Science",
+    description: "Extracting actionable insights through statistical models, machine learning, and data visualization.",
+    icon: "ChartLine" // Phosphor icon name
+  },
+  {
+    id: "computer-vision",
+    title: "Computer Vision",
+    description: "Building systems for image classification and advanced object detection.",
+    icon: "Eye" // Phosphor icon name
+  }
+];
