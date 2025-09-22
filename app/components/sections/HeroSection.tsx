@@ -1,9 +1,46 @@
 import { SectionTitle, GlassButton, GlassCard, GlassInput } from "@/app/components/ui";
-import { Lightning } from "@phosphor-icons/react";
+import { Lightning, List, ArrowDown, Envelope, LinkedinLogo, GithubLogo } from "@phosphor-icons/react";
+import { motion } from "framer-motion";
+import Image from "next/image";
 
 export function HeroSection() {
   return (
-    <section id="hero" className="min-h-screen flex flex-col items-center justify-center gap-8 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-8">
+    <section id="hero" className="min-h-screen flex flex-col px-4 lg:px-[60px] py-4 lg:py-[60px] relative">
+      
+      {/* Header - Logo, Language Buttons, Menu */}
+      <header className="w-full flex items-center justify-between mb-8">
+        {/* Logo */}
+        <div className="flex-shrink-0">
+          <Image
+            src="/images/Logo.svg"
+            alt="Diego Logo"
+            width={72}
+            height={38}
+            className="w-auto h-8 lg:h-10"
+          />
+        </div>
+
+        {/* Language Buttons */}
+        <div className="hidden lg:flex items-center gap-4">
+          <button className="text-white font-general text-2xl font-medium hover:opacity-80 transition-opacity cursor-pointer">
+            EN
+          </button>
+          <button 
+            className="font-general text-2xl font-medium transition-opacity cursor-pointer"
+            style={{ color: 'rgba(255, 255, 255, 0.50)' }}
+          >
+            ES
+          </button>
+        </div>
+
+        {/* Menu Icon */}
+        <button className="flex-shrink-0 text-white hover:opacity-80 transition-opacity cursor-pointer">
+          <List size={32} weight="regular" />
+        </button>
+      </header>
+
+      {/* Main Content - Centered */}
+      <div className="flex-1 flex flex-col items-center justify-center gap-8">
       <SectionTitle className="text-center">
         {/* Layout móvil y tablet: AI Developer debajo */}
         <div className="block xl:hidden">
@@ -54,6 +91,50 @@ export function HeroSection() {
           />
         </GlassButton>
       </div>
+
+      </div>
+
+      {/* Bottom Left - Animated Arrow and Text */}
+      <div className="absolute bottom-4 lg:bottom-[60px] left-4 lg:left-[60px] flex items-center gap-3">
+        {/* Animated Arrow */}
+        <motion.div
+          animate={{ 
+            y: [0, 8, 0],
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="text-white"
+        >
+          <ArrowDown size={32} weight="bold" />
+        </motion.div>
+        
+        {/* Text */}
+        <span className="text-white font-general text-base font-light">
+          Meet the human behind the AI
+        </span>
+      </div>
+
+      {/* Bottom Right - Social Contact Buttons */}
+      <div className="absolute bottom-4 lg:bottom-[60px] right-4 lg:right-[60px] flex flex-col items-center gap-3">
+        {/* Email Button */}
+        <GlassButton variant="circular" className="w-12 h-12 hover:scale-110 transition-transform duration-200">
+          <Envelope size={20} weight="regular" />
+        </GlassButton>
+        
+        {/* LinkedIn Button */}
+        <GlassButton variant="circular" className="w-12 h-12 hover:scale-110 transition-transform duration-200">
+          <LinkedinLogo size={20} weight="regular" />
+        </GlassButton>
+        
+        {/* GitHub Button */}
+        <GlassButton variant="circular" className="w-12 h-12 hover:scale-110 transition-transform duration-200">
+          <GithubLogo size={20} weight="regular" />
+        </GlassButton>
+      </div>
+
     </section>
   );
 }
