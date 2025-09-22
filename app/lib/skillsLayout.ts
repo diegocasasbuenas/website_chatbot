@@ -7,12 +7,18 @@ import { NodePosition } from '../types';
 interface SkillNodeData {
   id: string;
   title: string;
+  description?: string;
+  projects?: { title: string; description: string }[];
+  tools?: string[];
   children?: SkillNodeData[];
 }
 
 interface CalculatedNode {
   id: string;
   title: string;
+  description?: string;
+  projects?: { title: string; description: string }[];
+  tools?: string[];
   position: NodePosition;
   children: CalculatedNode[];
 }
@@ -56,7 +62,6 @@ export function calculateNodePositions(
   
   return parentNodes.map((parentNode, index) => {
     const parentPosition = parentPositions[index];
-    
     // Calcular posiciones de nodos hijo para este padre, considerando todas las posiciones ocupadas
     const childPositions = calculateChildPositionsAroundParent(
       parentNode.children || [],
@@ -64,17 +69,21 @@ export function calculateNodePositions(
       layoutConfig,
       allOccupiedPositions // Pasar todas las posiciones ocupadas hasta ahora
     );
-    
     // Agregar las nuevas posiciones de hijos al array de posiciones ocupadas
     allOccupiedPositions.push(...childPositions);
-    
     return {
       id: parentNode.id,
       title: parentNode.title,
+      description: parentNode.description,
+      projects: parentNode.projects,
+      tools: parentNode.tools,
       position: parentPosition,
       children: (parentNode.children || []).map((child, childIndex) => ({
         id: child.id,
         title: child.title,
+        description: child.description,
+        projects: child.projects,
+        tools: child.tools,
         position: childPositions[childIndex] || { x: 0, y: 0 }, // Fallback position
         children: []
       }))

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { SectionLayout, SectionTitleWrapper } from '../layout';
 import { HeartNode } from '../ui/HeartNode';
 import { SkillNode } from '../ui/SkillNode';
@@ -8,6 +9,27 @@ import { skillsData } from '../../constants/content';
 import { calculateNodePositions, calculateContainerSize } from '../../lib/skillsLayout';
 
 export function SkillsSection() {
+  // Estado para el nodo seleccionado
+  const [selectedNode, setSelectedNode] = React.useState<null | {
+    id: string;
+    title: string;
+    description?: string;
+    projects?: { title: string; description: string }[];
+    tools?: string[];
+  }>(null);
+  // Estado para controlar el render del texto Explore
+  const [showExploreText, setShowExploreText] = React.useState(true);
+
+  // Cuando se selecciona un nodo, ocultar el texto Explore
+  React.useEffect(() => {
+    if (selectedNode) {
+      setShowExploreText(false);
+    } else {
+      // Esperar la duración de la animación antes de mostrar el texto
+      const timeout = setTimeout(() => setShowExploreText(true), 350);
+      return () => clearTimeout(timeout);
+    }
+  }, [selectedNode]);
   // Calcular posiciones automáticamente con configuración fija
   const calculatedData = useMemo(() => {
     const config = {
@@ -95,58 +117,140 @@ export function SkillsSection() {
       className="bg-background/50 relative"
     >
       {/* Contenido principal */}
-      <div className="flex-1 flex items-center justify-center">
-        <div 
-          className="relative mx-auto"
-          style={{
-            width: containerSize.width,
-            height: containerSize.height
-          }}
-        >
-          {/* Líneas de conexión */}
-          <svg 
-            className="absolute inset-0 pointer-events-none"
-            width={containerSize.width}
-            height={containerSize.height}
-          >
-            {renderConnections()}
-          </svg>
-
-          {/* Nodo central (corazón) */}
-          <HeartNode 
-            text={skillsData.centerNode}
+      <div className="flex-1 flex flex-row items-center justify-center gap-8 min-h-[600px]">
+        {/* Wrapper centrado vertical y horizontal */}
+        <div className="flex flex-row items-center justify-center w-full h-full">
+          {/* Texto informativo a la izquierda */}
+          {/* Si hay nodo seleccionado, mostrar el glass info. Si no, mostrar el texto Explore */}
+          <AnimatePresence>
+            {selectedNode && (
+              <motion.div
+                className="w-[340px] min-w-[260px] max-w-[400px] mr-2 select-none"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.35, ease: 'easeOut' }}
+                // No actualiza showExploreText aquí, lo gestiona el useEffect
+              >
+                <div className="rounded-2xl bg-white/10 border border-white/20 shadow-lg backdrop-blur-lg p-6 flex flex-col gap-4">
+                  <h2 className="text-white font-bold text-[22px] leading-normal mb-1" style={{ fontFamily: 'Satoshi Variable' }}>{selectedNode.title}</h2>
+                  {selectedNode.description && (
+                    <p className="text-white/80 text-[16px] font-normal leading-relaxed" style={{ fontFamily: 'General Sans Variable' }}>{selectedNode.description}</p>
+                  )}
+                  {selectedNode.projects && selectedNode.projects.length > 0 && (
+                    <div>
+                      <div className="font-bold text-white text-[15px] mb-1 flex items-center gap-2"><span>🚀</span> Related Projects</div>
+                      <ul className="list-disc ml-5">
+                        {selectedNode.projects.map((proj, idx) => (
+                          <li key={idx} className="text-white/80 text-[16px] mb-1 leading-relaxed"><span className="font-semibold">{proj.title}</span> – {proj.description}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {selectedNode.tools && selectedNode.tools.length > 0 && (
+                    <div>
+                      <div className="font-bold text-white text-[15px] mb-1 flex items-center gap-2"><span>🛠</span> Tools & Stack</div>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedNode.tools.map((tool, idx) => (
+                          <span key={idx} className="bg-white/20 text-white/90 px-2 py-1 rounded text-[14px] font-medium">{tool}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  <button
+                    className="mt-2 text-white/70 text-xs underline hover:text-white transition self-end cursor-pointer"
+                    onClick={() => {
+                      setShowExploreText(false);
+                      setSelectedNode(null);
+                    }}
+                  >Back to Explore</button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+          {showExploreText && !selectedNode && (
+            <div className="flex flex-col items-start justify-center w-[340px] min-w-[260px] max-w-[400px] mr-2 select-none text-left">
+              <h2
+                className="text-white font-bold text-[24px] leading-normal mb-3"
+                style={{ fontFamily: 'Satoshi Variable' }}
+              >
+                Explore Diego’s Skills
+              </h2>
+              <p
+                className="text-white/75 text-[16px] font-normal leading-normal"
+                style={{ fontFamily: 'General Sans Variable' }}
+              >
+                Click on each node to discover detailed explanations, related projects, and the tools behind them.
+              </p>
+            </div>
+          )}
+          {/* Gráfico de skills */}
+          <div 
+            className="relative flex items-center justify-center"
             style={{
-              position: 'absolute',
-              left: heartPosition.x,
-              top: heartPosition.y
+              width: containerSize.width,
+              height: containerSize.height
             }}
-          />
-          {/* Nodos padre estáticos */}
-          {calculatedNodes.map((parentNode) => (
-            <SkillNode
-              key={parentNode.id}
-              title={parentNode.title}
+          >
+            {/* Líneas de conexión */}
+            <svg 
+              className="absolute inset-0 pointer-events-none"
+              width={containerSize.width}
+              height={containerSize.height}
+            >
+              {renderConnections()}
+            </svg>
+
+            {/* Nodo central (corazón) */}
+            <HeartNode 
+              text={skillsData.centerNode}
               style={{
                 position: 'absolute',
-                left: parentNode.position.x,
-                top: parentNode.position.y
+                left: heartPosition.x,
+                top: heartPosition.y
               }}
             />
-          ))}
-          {/* Nodos hijo estáticos */}
-          {calculatedNodes.map((parentNode) =>
-            parentNode.children.map((childNode) => (
+            {/* Nodos padre estáticos */}
+            {calculatedNodes.map((parentNode) => (
               <SkillNode
-                key={childNode.id}
-                title={childNode.title}
+                key={parentNode.id}
+                title={parentNode.title}
                 style={{
                   position: 'absolute',
-                  left: childNode.position.x,
-                  top: childNode.position.y
+                  left: parentNode.position.x,
+                  top: parentNode.position.y
                 }}
+                onClick={() => setSelectedNode({
+                  id: parentNode.id,
+                  title: parentNode.title,
+                  description: parentNode.description,
+                  projects: parentNode.projects,
+                  tools: parentNode.tools
+                })}
               />
-            ))
-          )}
+            ))}
+            {/* Nodos hijo estáticos */}
+            {calculatedNodes.map((parentNode) =>
+              parentNode.children.map((childNode) => (
+                <SkillNode
+                  key={childNode.id}
+                  title={childNode.title}
+                  style={{
+                    position: 'absolute',
+                    left: childNode.position.x,
+                    top: childNode.position.y
+                  }}
+                  onClick={() => setSelectedNode({
+                    id: childNode.id,
+                    title: childNode.title,
+                    description: childNode.description,
+                    projects: childNode.projects,
+                    tools: childNode.tools
+                  })}
+                />
+              ))
+            )}
+          </div>
         </div>
       </div>
 

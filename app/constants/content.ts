@@ -124,71 +124,149 @@ export const projectsData = [
 export const skillsData = {
   // Texto del nodo central (corazón)
   centerNode: "Diego's Skills",
-  
-  // Nodos principales y sus hijos (sin posiciones - se calculan automáticamente)
+
+  // Nodos principales y sus hijos con info detallada
   parentNodes: [
     {
       id: "core-ai-ml",
       title: "Core AI & ML",
+      description: "Fundamental concepts and models for artificial intelligence and machine learning.",
+      projects: [
+        { title: "ML Foundations", description: "Building core models for prediction and classification." },
+        { title: "AI Research", description: "Exploring new algorithms and approaches." }
+      ],
+      tools: ["Python", "Scikit-learn", "TensorFlow", "PyTorch"],
       children: [
         {
           id: "anomaly-detection",
-          title: "Anomaly Detection"
+          title: "Anomaly Detection",
+          description: "Identify unusual patterns in financial data, e-commerce, and operations.",
+          projects: [
+            { title: "Fraud Detection System", description: "Detecting anomalies in financial transactions." },
+            { title: "E-commerce Monitoring", description: "Real-time detection of unusual shopping behaviors." }
+          ],
+          tools: ["Python", "PyOD", "Scikit-learn", "Pandas"]
         },
-        { id: "time-series",
-          title: "Time Series"
+        {
+          id: "time-series",
+          title: "Time Series",
+          description: "Forecasting and analyzing temporal data for business and science.",
+          projects: [
+            { title: "Sales Forecasting", description: "Predicting future sales using time series models." }
+          ],
+          tools: ["Python", "Prophet", "Statsmodels", "Pandas"]
         },
         {
           id: "learning",
-          title: "Learning"
+          title: "Learning",
+          description: "Supervised and unsupervised learning techniques.",
+          projects: [
+            { title: "Customer Segmentation", description: "Grouping users based on behavior." }
+          ],
+          tools: ["Scikit-learn", "Python"]
         },
         {
           id: "deep-learning",
-          title: "Deep Learning"
+          title: "Deep Learning",
+          description: "Neural networks for image, text, and data analysis.",
+          projects: [
+            { title: "Image Classifier", description: "Classifying images using CNNs." }
+          ],
+          tools: ["TensorFlow", "PyTorch", "Keras"]
         },
         {
           id: "recommenders",
-          title: "Recommenders"
+          title: "Recommenders",
+          description: "Building recommendation systems for products and content.",
+          projects: [
+            { title: "Movie Recommender", description: "Suggesting movies based on user preferences." }
+          ],
+          tools: ["Python", "Surprise", "LightFM"]
         }
       ]
     },
     {
       id: "llms",
       title: "LLM's",
+      description: "Large Language Models for advanced text understanding and generation.",
+      projects: [
+        { title: "Chatbot Platform", description: "Conversational AI using LLMs." }
+      ],
+      tools: ["Python", "HuggingFace", "LangChain"],
       children: [
         {
           id: "applications",
-          title: "Applications"
+          title: "Applications",
+          description: "Practical uses of LLMs in business and research.",
+          projects: [
+            { title: "Legal Assistant", description: "Processing legal documents with LLMs." }
+          ],
+          tools: ["Python", "OpenAI API"]
         },
         {
           id: "rag",
-          title: "RAG"
+          title: "RAG",
+          description: "Retrieval-Augmented Generation for contextual responses.",
+          projects: [
+            { title: "RAG System", description: "Combining search and generation for better answers." }
+          ],
+          tools: ["LangChain", "Python"]
         },
         {
           id: "fine-tuning",
-          title: "Fine-Tuning"
+          title: "Fine-Tuning",
+          description: "Adapting LLMs to specific domains and tasks.",
+          projects: [
+            { title: "Domain LLM", description: "Custom training for industry knowledge." }
+          ],
+          tools: ["HuggingFace", "Python"]
         },
         {
           id: "agents",
-          title: "Agents"
+          title: "Agents",
+          description: "Autonomous agents powered by LLMs.",
+          projects: [
+            { title: "Workflow Agent", description: "Automating business processes with agents." }
+          ],
+          tools: ["LangChain", "Python"]
         }
       ]
     },
     {
       id: "mlops",
       title: "MLOps",
+      description: "Machine Learning Operations for scalable deployment and monitoring.",
+      projects: [
+        { title: "ML Pipeline", description: "Automated training and deployment." }
+      ],
+      tools: ["Docker", "Kubernetes", "Python"],
       children: [
         {
           id: "ci-cd",
-          title: "CI/CD"
+          title: "CI/CD",
+          description: "Continuous integration and delivery for ML workflows.",
+          projects: [
+            { title: "Model CI/CD", description: "Automated testing and deployment of models." }
+          ],
+          tools: ["GitHub Actions", "Docker"]
         },
         {
           id: "deployment",
-          title: "Deployment"
+          title: "Deployment",
+          description: "Serving models in production environments.",
+          projects: [
+            { title: "Model Serving", description: "Deploying models with REST APIs." }
+          ],
+          tools: ["FastAPI", "Docker"]
         },
         {
           id: "pipelines",
-          title: "Pipelines"
+          title: "Pipelines",
+          description: "End-to-end automation of ML workflows.",
+          projects: [
+            { title: "Data Pipeline", description: "Automating data ingestion and processing." }
+          ],
+          tools: ["Airflow", "Python"]
         }
       ]
     }
