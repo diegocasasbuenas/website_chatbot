@@ -117,15 +117,15 @@ export function SkillsSection() {
       className="bg-background/50 relative"
     >
       {/* Contenido principal */}
-      <div className="flex-1 flex flex-row items-center justify-center gap-8 min-h-[600px]">
+      <div className="flex-1 flex flex-col md:flex-row items-center justify-center gap-8 min-h-[600px] px-2 md:px-0">
         {/* Wrapper centrado vertical y horizontal */}
-        <div className="flex flex-row items-center justify-center w-full h-full">
+        <div className="flex flex-col md:flex-row items-center justify-center w-full h-full">
           {/* Texto informativo a la izquierda */}
           {/* Si hay nodo seleccionado, mostrar el glass info. Si no, mostrar el texto Explore */}
           <AnimatePresence>
             {selectedNode && (
               <motion.div
-                className="w-[340px] min-w-[260px] max-w-[400px] mr-2 select-none"
+                className="w-full md:w-[340px] min-w-[200px] max-w-[400px] md:mr-2 mb-6 md:mb-0 select-none"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
@@ -169,7 +169,7 @@ export function SkillsSection() {
             )}
           </AnimatePresence>
           {showExploreText && !selectedNode && (
-            <div className="flex flex-col items-start justify-center w-[340px] min-w-[260px] max-w-[400px] mr-2 select-none text-left">
+            <div className="flex flex-col items-start justify-center w-full md:w-[340px] min-w-[200px] max-w-[400px] md:mr-2 mb-6 md:mb-0 select-none text-left">
               <h2
                 className="text-white font-bold text-[24px] leading-normal mb-3"
                 style={{ fontFamily: 'Satoshi Variable' }}
@@ -186,9 +186,11 @@ export function SkillsSection() {
           )}
           {/* Gráfico de skills */}
           <div 
-            className="relative flex items-center justify-center"
+            className="relative flex items-center justify-center w-full overflow-x-auto"
             style={{
-              width: containerSize.width,
+              minWidth: '320px',
+              width: '100%',
+              maxWidth: '800px',
               height: containerSize.height
             }}
           >
