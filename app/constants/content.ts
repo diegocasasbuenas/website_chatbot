@@ -1,15 +1,16 @@
-/**
- * Datos de contenido básicos
- */
 
-// Enlaces sociales para el Hero Section
+// ===============================
+// 1. Enlaces sociales (Hero)
+// ===============================
 export const socialLinks = {
   email: "mailto:diego@example.com",
   linkedin: "https://www.linkedin.com/in/diegocasasbuenas-ai/",
   github: "https://github.com/diegocasasbuenas/website_chatbot"
 };
 
-// Contenido mínimo para las secciones
+// ===============================
+// 2. Configuración de secciones
+// ===============================
 export const sectionsConfig = [
   { id: "hero", title: "Home" },
   { id: "about", title: "Meet Diego" },
@@ -18,7 +19,9 @@ export const sectionsConfig = [
   { id: "services", title: "Services" },
 ];
 
-// Contenido del acordeón para la sección About
+// ===============================
+// 3. Contenido para sección About
+// ===============================
 export const aboutAccordionData = [
   {
     id: "who-am-i",
@@ -34,7 +37,9 @@ export const aboutAccordionData = [
   },
 ];
 
-// Datos de servicios para la sección Services
+// ===============================
+// 4. Servicios (Services Section)
+// ===============================
 export const servicesData = [
   {
     id: "llm-finetuning",
@@ -74,7 +79,9 @@ export const servicesData = [
   }
 ];
 
-// Datos de proyectos para la sección Projects
+// ===============================
+// 5. Proyectos (Projects Section)
+// ===============================
 export const projectsData = [
   {
     id: "project-1",
@@ -120,13 +127,16 @@ export const projectsData = [
   }
 ];
 
-// Datos para el gráfico de skills
+// ===============================
+// 6. Skills Graph (Skills Section)
+// ===============================
 export const skillsData = {
   // Texto del nodo central (corazón)
   centerNode: "Diego's Skills",
 
   // Nodos principales y sus hijos con info detallada
   parentNodes: [
+    // --- Edita cada bloque para cambiar los nodos principales y sus hijos ---
     {
       id: "core-ai-ml",
       title: "Core AI & ML",
