@@ -3,9 +3,9 @@
 // 1. Enlaces sociales (Hero)
 // ===============================
 export const socialLinks = {
-  email: "mailto:diego@example.com",
+  email: "mailto:diego.cdeaza23@gmail.com",
   linkedin: "https://www.linkedin.com/in/diegocasasbuenas-ai/",
-  github: "https://github.com/diegocasasbuenas/website_chatbot"
+  github: "https://github.com/diegocasasbuenas/"
 };
 
 // ===============================
