@@ -4,11 +4,15 @@ interface SectionLayoutProps {
   children: ReactNode;
   sectionName: string;
   className?: string;
+  id?: string;
 }
 
-export function SectionLayout({ children, sectionName, className = '' }: SectionLayoutProps) {
+export function SectionLayout({ children, sectionName, className = '', id }: SectionLayoutProps) {
   return (
-    <section className={`min-h-screen w-full grid grid-cols-[clamp(40px,8vw,60px)_1fr] grid-rows-[clamp(40px,8vw,60px)_1fr] ${className}`}>
+    <section 
+      id={id}
+      className={`min-h-screen w-full grid grid-cols-[clamp(40px,8vw,60px)_1fr] grid-rows-[clamp(40px,8vw,60px)_1fr] ${className}`}
+    >
       {/* Esquina superior izquierda - vacía */}
       <div className=""></div>
       

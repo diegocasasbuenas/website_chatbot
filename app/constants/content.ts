@@ -2,6 +2,13 @@
  * Datos de contenido básicos
  */
 
+// Enlaces sociales para el Hero Section
+export const socialLinks = {
+  email: "mailto:diego@example.com",
+  linkedin: "https://www.linkedin.com/in/diegocasasbuenas-ai/",
+  github: "https://github.com/diegocasasbuenas/website_chatbot"
+};
+
 // Contenido mínimo para las secciones
 export const sectionsConfig = [
   { id: "hero", title: "Hero Section" },
