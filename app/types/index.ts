@@ -83,6 +83,49 @@ export interface Skill {
 }
 
 /**
+ * Posición de un nodo en el gráfico de skills
+ */
+export interface NodePosition {
+  x: number;
+  y: number;
+}
+
+/**
+ * Nodo hijo en el gráfico de skills (estructura simple sin posición)
+ */
+export interface SkillChildNode {
+  id: string;
+  title: string;
+}
+
+/**
+ * Nodo padre en el gráfico de skills (estructura simple sin posición)
+ */
+export interface SkillParentNode {
+  id: string;
+  title: string;
+  children: SkillChildNode[];
+}
+
+/**
+ * Estructura de datos simple para el gráfico de skills (sin posiciones)
+ */
+export interface SkillsGraphData {
+  centerNode: string;
+  parentNodes: SkillParentNode[];
+}
+
+/**
+ * Nodo con posición calculada (resultado del algoritmo de layout)
+ */
+export interface CalculatedSkillNode {
+  id: string;
+  title: string;
+  position: NodePosition;
+  children: CalculatedSkillNode[];
+}
+
+/**
  * Estructura para proyecto
  */
 export interface Project {

@@ -210,43 +210,12 @@ vec3 green = vec3(0.3, 0.8, 0.5);   // RGB (0-1)
 vec3 orange = vec3(0.8, 0.4, 0.15); // RGB (0-1)
 ```
 
-## 📈 Performance
-
-### **Optimizaciones Implementadas**
-- 🚀 **GPU Rendering**: Shaders custom para animaciones fluidas
-- ⚡ **Zero Re-renders**: Scroll detection sin actualizar React state
-- 🧹 **Memory Management**: Cleanup automático de recursos Three.js
-- 📱 **Responsive**: Geometría adaptativa para todos los aspect ratios
-
-### **Métricas Objetivo**
-- First Contentful Paint: < 1.5s
-- Cumulative Layout Shift: < 0.1
-- Time to Interactive: < 3s
-
-## 🤝 Contribución
-
-1. Fork el proyecto
-2. Crea una rama feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
 
 ## 📝 Documentación Adicional
 
 - [Guía de Animaciones](./ANIMATION_DOCS.md) - Documentación completa del sistema de animaciones
 - [Configuración de TypeScript](./tsconfig.json) - Setup de tipos
 - [Configuración de Tailwind](./tailwind.config.ts) - Personalización de estilos
-
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia MIT. Ver [LICENSE](LICENSE) para más detalles.
-
-## 👨‍💻 Autor
-
-**Diego Casas** - AI Engineer & Full Stack Developer
-- GitHub: [@diegocasasbuenas](https://github.com/diegocasasbuenas)
-- LinkedIn: [diegocasasbuenas](https://linkedin.com/in/diegocasasbuenas)
-- Email: hello@diegocasas.dev
 
 ---
 

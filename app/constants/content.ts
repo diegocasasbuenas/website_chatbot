@@ -119,3 +119,78 @@ export const projectsData = [
     image: "/images/projects/7.png"
   }
 ];
+
+// Datos para el gráfico de skills
+export const skillsData = {
+  // Texto del nodo central (corazón)
+  centerNode: "Diego's Skills",
+  
+  // Nodos principales y sus hijos (sin posiciones - se calculan automáticamente)
+  parentNodes: [
+    {
+      id: "core-ai-ml",
+      title: "Core AI & ML",
+      children: [
+        {
+          id: "anomaly-detection",
+          title: "Anomaly Detection"
+        },
+        { id: "time-series",
+          title: "Time Series"
+        },
+        {
+          id: "learning",
+          title: "Learning"
+        },
+        {
+          id: "deep-learning",
+          title: "Deep Learning"
+        },
+        {
+          id: "recommenders",
+          title: "Recommenders"
+        }
+      ]
+    },
+    {
+      id: "llms",
+      title: "LLM's",
+      children: [
+        {
+          id: "applications",
+          title: "Applications"
+        },
+        {
+          id: "rag",
+          title: "RAG"
+        },
+        {
+          id: "fine-tuning",
+          title: "Fine-Tuning"
+        },
+        {
+          id: "agents",
+          title: "Agents"
+        }
+      ]
+    },
+    {
+      id: "mlops",
+      title: "MLOps",
+      children: [
+        {
+          id: "ci-cd",
+          title: "CI/CD"
+        },
+        {
+          id: "deployment",
+          title: "Deployment"
+        },
+        {
+          id: "pipelines",
+          title: "Pipelines"
+        }
+      ]
+    }
+  ]
+};
