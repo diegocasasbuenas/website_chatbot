@@ -10,7 +10,7 @@ export function AboutSection() {
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   return (
-    <SectionLayout sectionName="ABOUT ME" id="about">
+    <SectionLayout sectionName="MEET DIEGO" id="about">
       {/* Contenido principal */}
       <div ref={ref} className="flex-1 flex items-center justify-center">
         <div className="w-full grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-16 lg:gap-24 items-start">

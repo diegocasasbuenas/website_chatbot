@@ -2,7 +2,7 @@ import { SectionLayout, SectionTitleWrapper } from "@/app/components/layout";
 
 export function SkillsSection() {
   return (
-    <SectionLayout sectionName="SKILLS">
+    <SectionLayout sectionName="SKILLS" id="skills">
       {/* Contenido principal centrado */}
       <div className="flex-1 flex items-center justify-center">
         <div className="text-white text-center">

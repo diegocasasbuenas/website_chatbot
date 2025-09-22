@@ -4,7 +4,7 @@ import { servicesData } from "@/app/constants/content";
 
 export function ServicesSection() {
   return (
-    <SectionLayout sectionName="SERVICES">
+    <SectionLayout sectionName="SERVICES" id="services">
       {/* Contenido principal */}
       <div className="flex-1 flex items-center justify-center p-8">
         <div className="w-full max-w-7xl">

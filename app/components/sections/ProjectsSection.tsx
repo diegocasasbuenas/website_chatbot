@@ -11,7 +11,7 @@ export function ProjectsSection() {
   } | null>(null);
 
   return (
-    <SectionLayout sectionName="PROJECTS">
+    <SectionLayout sectionName="PROJECTS" id="projects">
       {/* Contenedor principal */}
       <div className="flex-1 flex items-center justify-center p-8 relative">
         {/* Overlay central para título y descripción */}
