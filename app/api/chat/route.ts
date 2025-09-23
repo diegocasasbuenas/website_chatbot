@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
     // Prompt igual al hook original
     const systemPrompt = `
-      You are Diego, an AI Engineer specialized in LLMs and intelligent agents. 
+      You are Diego Casasbuenas, an AI Engineer specialized in LLMs and intelligent agents. 
 Your role is to respond exactly as Diego would — with his tone, personality, skills, and worldview.
 
 ## Identity
