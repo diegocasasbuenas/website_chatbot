@@ -117,9 +117,9 @@ export function SkillsSection() {
       className="bg-background/50 relative"
     >
       {/* Contenido principal */}
-      <div className="flex-1 flex flex-col md:flex-row items-center justify-center gap-8 min-h-[600px] px-2 md:px-0">
+  <div className="flex-1 flex flex-col md:flex-row items-center justify-center gap-12 px-4 md:px-8">
         {/* Wrapper centrado vertical y horizontal */}
-        <div className="flex flex-col md:flex-row items-center justify-center w-full h-full">
+        <div className="flex flex-col md:flex-row items-center justify-center w-full">
           {/* Texto informativo a la izquierda */}
           {/* Si hay nodo seleccionado, mostrar el glass info. Si no, mostrar el texto Explore */}
           <AnimatePresence>
@@ -133,9 +133,9 @@ export function SkillsSection() {
                 // No actualiza showExploreText aquí, lo gestiona el useEffect
               >
                 <div className="rounded-2xl bg-white/10 border border-white/20 shadow-lg backdrop-blur-lg p-6 flex flex-col gap-4">
-                  <h2 className="text-white font-bold text-[22px] leading-normal mb-1" style={{ fontFamily: 'Satoshi Variable' }}>{selectedNode.title}</h2>
+                  <h2 className="font-satoshi text-white font-bold text-[22px] leading-normal mb-1">{selectedNode.title}</h2>
                   {selectedNode.description && (
-                    <p className="text-white/80 text-[16px] font-normal leading-relaxed" style={{ fontFamily: 'General Sans Variable' }}>{selectedNode.description}</p>
+                    <p className="font-general text-white/80 text-[16px] font-normal leading-relaxed">{selectedNode.description}</p>
                   )}
                   {selectedNode.projects && selectedNode.projects.length > 0 && (
                     <div>
@@ -171,14 +171,12 @@ export function SkillsSection() {
           {showExploreText && !selectedNode && (
             <div className="flex flex-col items-start justify-center w-full md:w-[340px] min-w-[200px] max-w-[400px] md:mr-2 mb-6 md:mb-0 select-none text-left">
               <h2
-                className="text-white font-bold text-[24px] leading-normal mb-3"
-                style={{ fontFamily: 'Satoshi Variable' }}
+                className="font-satoshi text-white font-bold text-[24px] leading-normal mb-3"
               >
                 Explore Diego’s Skills
               </h2>
               <p
-                className="text-white/75 text-[16px] font-normal leading-normal"
-                style={{ fontFamily: 'General Sans Variable' }}
+                className="font-general text-white/75 text-[16px] font-normal leading-normal"
               >
                 Click on each node to discover detailed explanations, related projects, and the tools behind them.
               </p>
@@ -186,11 +184,9 @@ export function SkillsSection() {
           )}
           {/* Gráfico de skills */}
           <div 
-            className="relative flex items-center justify-center w-full overflow-x-auto"
+            className="relative flex items-center justify-center"
             style={{
-              minWidth: '320px',
-              width: '100%',
-              maxWidth: '800px',
+              width: containerSize.width,
               height: containerSize.height
             }}
           >
