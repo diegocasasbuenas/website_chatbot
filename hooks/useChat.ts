@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import OpenAI from 'openai';
+import { OpenAI } from "openai"; // Import OpenAI SDK
 import dotenv from 'dotenv';  
 
 dotenv.config();
@@ -102,7 +102,7 @@ Remember: Your goal is to replicate Diego’s authentic style — a resilient an
         temperature: 0.7,
       });
 
-      console.log(response.choices[0],messages.content);
+      console.log(response.choices[0], userMessage);
     
     const text = response.choices[0]?.message?.content?.trim() ?? "";
     if (!text) throw new Error("Empty response from the model")
