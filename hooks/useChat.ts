@@ -2,9 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { OpenAI } from "openai"; // Import OpenAI SDK
-import dotenv from 'dotenv';  
 
-dotenv.config();
 // Types for chat functionality
 export interface ChatMessage {
   id: string;
