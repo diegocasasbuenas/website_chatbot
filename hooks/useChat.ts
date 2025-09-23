@@ -109,6 +109,7 @@ Remember: Your goal is to replicate Diego’s authentic style — a resilient an
     return text
 
   }catch (err) {
+    console.log(err)
     await new Promise(resolve => setTimeout(resolve, 1500)); 
     const randomResponse = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
     return randomResponse
