@@ -16,7 +16,13 @@ export function ProjectsSection() {
     if (typeof window === 'undefined') return;
 
     const mediaQuery = window.matchMedia('(hover: none) and (pointer: coarse)');
-    const updateDeviceType = () => setIsTouchDevice(mediaQuery.matches);
+    const updateDeviceType = () => {
+      const isTouch = mediaQuery.matches;
+      setIsTouchDevice(isTouch);
+      if (!isTouch) {
+        setSelectedProjectId(null);
+      }
+    };
 
     updateDeviceType();
 
@@ -83,12 +89,16 @@ export function ProjectsSection() {
         {/* Contenedor de proyectos con scroll */}
         <div className="w-full">
           <div 
-            className="overflow-y-auto scrollbar-hide"
-            style={{
-              height: '70vh',
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-            }}
+            className={`${isTouchDevice ? '' : 'overflow-y-auto scrollbar-hide'}`}
+            style={
+              isTouchDevice
+                ? undefined
+                : {
+                    height: '70vh',
+                    scrollbarWidth: 'none',
+                    msOverflowStyle: 'none',
+                  }
+            }
           >
             {/* Grid de proyectos */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-y-16 lg:gap-y-20 py-4">
@@ -127,29 +137,6 @@ export function ProjectsSection() {
           </div>
         </div>
       </div>
-
-      {/* Información accesible en dispositivos táctiles */}
-      <AnimatePresence>
-        {isTouchDevice && selectedProject && (
-          <motion.div
-            key={selectedProject.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ duration: 0.3 }}
-            className="px-8 pb-8"
-          >
-            <div className="rounded-2xl bg-white/10 border border-white/20 shadow-lg backdrop-blur-lg p-6">
-              <h3 className="font-satoshi text-white font-bold text-2xl mb-3">
-                {selectedProject.title}
-              </h3>
-              <p className="font-general text-white/85 text-base leading-relaxed">
-                {selectedProject.description}
-              </p>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Título en la esquina inferior izquierda */}
       <SectionTitleWrapper>Projects</SectionTitleWrapper>

@@ -26,39 +26,36 @@ export function SectionLayout({ children, sectionName, className = '', id }: Sec
   return (
     <section 
       id={id}
-      className={`min-h-screen w-full grid grid-cols-[clamp(40px,8vw,60px)_1fr] grid-rows-[clamp(40px,8vw,60px)_1fr] ${className}`}
+      className={`min-h-screen w-full grid grid-cols-1 grid-rows-[auto_1fr] md:[grid-template-columns:clamp(40px,8vw,60px)_1fr] md:[grid-template-rows:clamp(40px,8vw,60px)_1fr] ${className}`}
     >
       {/* Esquina superior izquierda - vacía */}
-      <div className=""></div>
+      <div className="hidden md:block"></div>
       
       {/* Línea horizontal superior con botones de acción */}
-      <div className="border-b border-white relative flex items-center justify-end px-[clamp(10px,2vw,20px)]">
-        {/* Botones de acción */}
-        <div className="flex items-center gap-3">
-          {/* Botón de contacto rápido */}
-          <button
-            className="px-3 py-1.5 text-white/70 hover:text-white hover:scale-105 transition-all duration-200 cursor-pointer font-general text-sm font-bold uppercase tracking-wide"
-            onClick={() => {
-              if (typeof window === 'undefined') return;
-              window.location.href = socialLinks.email;
-            }}
-            title="Contactar por email"
-          >
-            CONTACT
-          </button>
+      <div className="border-b border-white relative flex items-center justify-between md:justify-end gap-3 px-4 md:px-[clamp(10px,2vw,20px)]">
+        {/* Menú hamburger - solo visual, igual al del hero */}
+        <button
+          className="order-1 md:order-2 w-10 h-10 flex items-center justify-center text-white/70 hover:text-white hover:scale-110 transition-all duration-200 cursor-pointer"
+          title="Menú"
+        >
+          <List size={20} weight="regular" />
+        </button>
 
-          {/* Menú hamburger - solo visual, igual al del hero */}
-          <button
-            className="w-10 h-10 flex items-center justify-center text-white/70 hover:text-white hover:scale-110 transition-all duration-200 cursor-pointer"
-            title="Menú"
-          >
-            <List size={20} weight="regular" />
-          </button>
-        </div>
+        {/* Botón de contacto rápido */}
+        <button
+          className="order-2 md:order-1 ml-auto md:ml-0 px-3 py-1.5 text-white/70 hover:text-white hover:scale-105 transition-all duration-200 cursor-pointer font-general text-sm font-bold uppercase tracking-wide"
+          onClick={() => {
+            if (typeof window === 'undefined') return;
+            window.location.href = socialLinks.email;
+          }}
+          title="Contactar por email"
+        >
+          CONTACT
+        </button>
       </div>
       
       {/* Contenedor de textos en el espacio izquierdo */}
-      <div className="relative border-r border-white flex flex-col justify-between items-center py-[clamp(20px,4vw,60px)] overflow-visible">
+      <div className="hidden md:flex relative border-r border-white flex-col justify-between items-center py-[clamp(20px,4vw,60px)] overflow-visible">
         {/* Navegación rápida entre secciones - Solo visible en desktop */}
         <div className="hidden lg:flex flex-col gap-1">
           {sectionsConfig.map((section, index) => (
@@ -114,7 +111,7 @@ export function SectionLayout({ children, sectionName, className = '', id }: Sec
       </div>
       
       {/* Contenido principal de la sección */}
-      <div className="relative flex flex-col p-[clamp(20px,4vw,60px)]">
+      <div className="relative flex flex-col p-6 md:p-[clamp(20px,4vw,60px)]">
         {children}
       </div>
     </section>

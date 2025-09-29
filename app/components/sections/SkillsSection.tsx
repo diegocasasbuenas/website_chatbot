@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { SectionLayout, SectionTitleWrapper } from '../layout';
 import { HeartNode } from '../ui/HeartNode';
 import { SkillNode } from '../ui/SkillNode';
+import { GlassCard } from '../ui/GlassCard';
 import { skillsData } from '../../constants/content';
 import { calculateNodePositions, calculateContainerSize } from '../../lib/skillsLayout';
 
@@ -19,6 +20,7 @@ export function SkillsSection() {
   }>(null);
   // Estado para controlar el render del texto Explore
   const [showExploreText, setShowExploreText] = React.useState(true);
+  const [isMobile, setIsMobile] = React.useState(false);
 
   // Cuando se selecciona un nodo, ocultar el texto Explore
   React.useEffect(() => {
@@ -51,6 +53,131 @@ export function SkillsSection() {
   const calculatedNodes = calculatedData.nodes;
   const containerSize = calculatedData.containerSize;
   const heartPosition = calculatedData.heartPosition;
+
+
+  React.useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const updateIsMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    updateIsMobile();
+    window.addEventListener('resize', updateIsMobile);
+
+    return () => {
+      window.removeEventListener('resize', updateIsMobile);
+    };
+  }, []);
+
+  if (isMobile) {
+    return (
+      <SectionLayout
+        id="skills"
+        sectionName="Skills"
+        className="bg-background/50 relative"
+      >
+        <div className="flex-1 flex flex-col gap-6 px-4 py-8">
+          <GlassCard padding="lg" hover={false} className="space-y-4">
+            <h2 className="font-satoshi text-white text-2xl font-semibold leading-tight">
+              Explore Diego’s Skills
+            </h2>
+            <p className="font-general text-white/80 text-base leading-relaxed">
+              Discover the expertise behind Diego’s AI work. Tap each area to expand and learn about related projects and tools.
+            </p>
+          </GlassCard>
+
+          {skillsData.parentNodes.map((parentNode) => (
+            <GlassCard key={parentNode.id} padding="lg" className="space-y-4">
+              <div className="space-y-2">
+                <h3 className="font-satoshi text-white text-xl font-semibold leading-tight">
+                  {parentNode.title}
+                </h3>
+                {parentNode.description && (
+                  <p className="font-general text-white/80 text-sm leading-relaxed">
+                    {parentNode.description}
+                  </p>
+                )}
+              </div>
+
+              {parentNode.tools && parentNode.tools.length > 0 && (
+                <div className="space-y-2">
+                  <p className="font-general text-white/70 text-xs uppercase tracking-wide">
+                    Tools & Stack
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {parentNode.tools.map((tool) => (
+                      <span
+                        key={tool}
+                        className="bg-white/15 text-white/90 px-2 py-1 rounded-full text-xs font-medium"
+                      >
+                        {tool}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {parentNode.projects && parentNode.projects.length > 0 && (
+                <div className="space-y-2">
+                  <p className="font-general text-white/70 text-xs uppercase tracking-wide">
+                    Related Projects
+                  </p>
+                  <ul className="space-y-2">
+                    {parentNode.projects.map((project) => (
+                      <li key={project.title} className="text-white/85 text-sm leading-relaxed">
+                        <span className="font-semibold">{project.title}</span>
+                        {project.description ? ` – ${project.description}` : ''}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {parentNode.children && parentNode.children.length > 0 && (
+                <div className="space-y-2">
+                  <p className="font-general text-white/70 text-xs uppercase tracking-wide">
+                    Specialties
+                  </p>
+                  <div className="space-y-3">
+                    {parentNode.children.map((childNode) => (
+                      <div
+                        key={childNode.id}
+                        className="rounded-xl bg-white/10 border border-white/20 p-3"
+                      >
+                        <h4 className="font-satoshi text-white text-base font-semibold">
+                          {childNode.title}
+                        </h4>
+                        {childNode.description && (
+                          <p className="font-general text-white/80 text-sm leading-relaxed mt-1">
+                            {childNode.description}
+                          </p>
+                        )}
+                        {childNode.tools && childNode.tools.length > 0 && (
+                          <div className="flex flex-wrap gap-1.5 mt-2">
+                            {childNode.tools.map((tool) => (
+                              <span
+                                key={tool}
+                                className="bg-white/15 text-white/85 px-2 py-0.5 rounded-full text-xs"
+                              >
+                                {tool}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </GlassCard>
+          ))}
+        </div>
+
+        <SectionTitleWrapper>Skills</SectionTitleWrapper>
+      </SectionLayout>
+    );
+  }
 
 
   // Función para generar todas las líneas de conexión (estáticas)

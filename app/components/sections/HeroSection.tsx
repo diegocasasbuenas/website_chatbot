@@ -188,7 +188,7 @@ export function HeroSection() {
       </div>
 
       {/* Bottom Left - Animated Arrow and Text */}
-      <div className="absolute bottom-4 lg:bottom-[60px] left-4 lg:left-[60px] flex items-center gap-3">
+      <div className="hidden md:flex absolute bottom-4 lg:bottom-[60px] left-4 lg:left-[60px] items-center gap-3">
         {/* Animated Arrow */}
         <motion.button
           onClick={handleScrollToNext}
@@ -217,7 +217,7 @@ export function HeroSection() {
       </div>
 
       {/* Bottom Right - Social Contact Buttons */}
-      <div className="absolute bottom-4 lg:bottom-[60px] right-4 lg:right-[60px] flex flex-col items-center gap-3">
+      <div className="hidden md:flex absolute bottom-4 lg:bottom-[60px] right-4 lg:right-[60px] flex-col items-center gap-3">
         {/* Email Button */}
         <GlassButton 
           variant="circular" 
