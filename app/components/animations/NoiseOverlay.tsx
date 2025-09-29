@@ -11,6 +11,21 @@ export default function NoiseOverlay() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
+  const drawNoise = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    const imageData = ctx.createImageData(width, height);
+    const data = imageData.data;
+
+    for (let i = 0; i < data.length; i += 4) {
+      const val = Math.random() * 120;
+      data[i] = val;
+      data[i + 1] = val;
+      data[i + 2] = val;
+      data[i + 3] = 35;
+    }
+
+    ctx.putImageData(imageData, 0, 0);
+  };
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -36,26 +51,6 @@ export default function NoiseOverlay() {
     /**
      * Genera el patrón de ruido en el canvas
      */
-    const generateNoise = (width: number, height: number) => {
-      // Actualizar dimensiones del canvas
-      canvas.width = width;
-      canvas.height = height;
-
-      // Generar ruido visual
-      const imageData = ctx.createImageData(width, height);
-      const data = imageData.data;
-
-      for (let i = 0; i < data.length; i += 4) {
-        const val = Math.random() * 120; // gris oscuro aleatorio (0-120)
-        data[i] = val;     // R
-        data[i + 1] = val; // G
-        data[i + 2] = val; // B
-        data[i + 3] = 35;  // Alpha (sutil pero visible)
-      }
-
-      ctx.putImageData(imageData, 0, 0);
-    };
-
     /**
      * Handler para el evento resize con debounce mínimo
      */
@@ -97,19 +92,7 @@ export default function NoiseOverlay() {
     canvas.width = dimensions.width;
     canvas.height = dimensions.height;
 
-    // Generar ruido visual
-    const imageData = ctx.createImageData(dimensions.width, dimensions.height);
-    const data = imageData.data;
-
-    for (let i = 0; i < data.length; i += 4) {
-      const val = Math.random() * 120; // gris oscuro aleatorio (0-120)
-      data[i] = val;     // R
-      data[i + 1] = val; // G
-      data[i + 2] = val; // B
-      data[i + 3] = 35;  // Alpha (sutil pero visible)
-    }
-
-    ctx.putImageData(imageData, 0, 0);
+    drawNoise(ctx, dimensions.width, dimensions.height);
   }, [dimensions]);
 
   return (

@@ -12,6 +12,8 @@ interface SectionLayoutProps {
 export function SectionLayout({ children, sectionName, className = '', id }: SectionLayoutProps) {
   // Navigation function
   const scrollToSection = (sectionId: string) => {
+    if (typeof window === 'undefined') return;
+
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ 
@@ -36,7 +38,10 @@ export function SectionLayout({ children, sectionName, className = '', id }: Sec
           {/* Botón de contacto rápido */}
           <button
             className="px-3 py-1.5 text-white/70 hover:text-white hover:scale-105 transition-all duration-200 cursor-pointer font-general text-sm font-bold uppercase tracking-wide"
-            onClick={() => window.location.href = socialLinks.email}
+            onClick={() => {
+              if (typeof window === 'undefined') return;
+              window.location.href = socialLinks.email;
+            }}
             title="Contactar por email"
           >
             CONTACT

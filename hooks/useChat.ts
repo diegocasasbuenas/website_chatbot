@@ -1,7 +1,8 @@
 
 
 import { useState, useRef, useEffect } from "react";
-// ...existing code...
+import { chatFallbackResponses } from "@/app/constants/chat";
+
 // Types for chat functionality
 export interface ChatMessage {
   id: string;
@@ -16,7 +17,6 @@ export function useChat() {
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isChatVisible, setIsChatVisible] = useState(false);
-  const [isApiAvailable, setIsApiAvailable] = useState(false); // Track API availability
   
   // Refs for auto-scroll functionality
   const chatContainerRef = useRef<HTMLDivElement>(null);
@@ -28,20 +28,6 @@ export function useChat() {
     }
   }, [messages, isLoading]);
 
-  // ...existing code...
-  // Fallback responses for when API is not available
-  const fallbackResponses = [
-    "Thanks for reaching out! I'm Diego's AI assistant, but I'm currently in demo mode. In the full version, I'd help you understand Diego's expertise in AI, machine learning, and software development.",
-    
-    "Hi there! While the ChatGPT integration is being set up, I can tell you that Diego specializes in building AI-powered solutions, from LLM fine-tuning to complete MLOps pipelines.",
-    
-    "Hello! I'm temporarily running in demo mode. Diego would love to discuss how AI can transform your business - from RAG systems to intelligent automation workflows.",
-    
-    "Great question! I'm Diego's AI copilot (in demo mode for now). Diego has experience building everything from computer vision systems to conversational AI like this one.",
-    
-    "Thanks for your interest! While I'm in demo mode, I can share that Diego creates cutting-edge AI solutions, including chatbots, recommendation systems, and data science projects.",
-  ];
-  
   // Llama al endpoint /api/chat para obtener la respuesta de OpenAI
   const callChatAPI = async (userMessage: string): Promise<string> => {
     try {
@@ -52,12 +38,16 @@ export function useChat() {
         },
         body: JSON.stringify({ messages: [{ role: 'user', content: userMessage }] }),
       });
+      if (!res.ok) {
+        throw new Error(`Chat API responded with status ${res.status}`);
+      }
+
       const data = await res.json();
       if (data.reply) return data.reply;
       throw new Error('No reply from API');
     } catch (err) {
       await new Promise(resolve => setTimeout(resolve, 1500));
-      const randomResponse = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
+      const randomResponse = chatFallbackResponses[Math.floor(Math.random() * chatFallbackResponses.length)];
       return randomResponse;
     }
   };
@@ -84,8 +74,7 @@ export function useChat() {
     setIsLoading(true);
 
     try {
-  // Llama al endpoint API route en vez de OpenAI directo
-  const aiResponse = await callChatAPI(userMessage.content);
+      const aiResponse = await callChatAPI(userMessage.content);
       
       const assistantMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
@@ -97,9 +86,6 @@ export function useChat() {
       setMessages(prev => [...prev, assistantMessage]);
     } catch (error) {
       console.error('Error calling ChatGPT API:', error);
-      
-      // Set API as unavailable for future reference
-      setIsApiAvailable(false);
       
       // Use a contextual fallback response
       const fallbackMessage = "I'm currently in demo mode, but I'm excited to chat about Diego's AI expertise! He specializes in building intelligent systems that solve real business problems.";
@@ -128,7 +114,6 @@ export function useChat() {
     inputValue,
     isLoading,
     isChatVisible,
-    isApiAvailable,
     
     // Refs
     chatContainerRef,

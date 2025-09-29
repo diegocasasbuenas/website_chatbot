@@ -1,7 +1,7 @@
 import { SectionLayout, SectionTitleWrapper } from "@/app/components/layout";
 import { ProjectCard } from "@/app/components/ui";
 import { projectsData } from "@/app/constants/content";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function ProjectsSection() {
@@ -9,6 +9,30 @@ export function ProjectsSection() {
     title: string;
     description: string;
   } | null>(null);
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const mediaQuery = window.matchMedia('(hover: none) and (pointer: coarse)');
+    const updateDeviceType = () => setIsTouchDevice(mediaQuery.matches);
+
+    updateDeviceType();
+
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', updateDeviceType);
+      return () => mediaQuery.removeEventListener('change', updateDeviceType);
+    }
+
+    mediaQuery.addListener(updateDeviceType);
+    return () => mediaQuery.removeListener(updateDeviceType);
+  }, []);
+
+  const selectedProject = useMemo(() => {
+    if (!selectedProjectId) return null;
+    return projectsData.find((project) => project.id === selectedProjectId) ?? null;
+  }, [selectedProjectId]);
 
   return (
     <SectionLayout sectionName="PROJECTS" id="projects">
@@ -16,7 +40,7 @@ export function ProjectsSection() {
       <div className="flex-1 flex items-center justify-center p-8 relative">
         {/* Overlay central para título y descripción */}
         <AnimatePresence>
-          {hoveredProject && (
+          {!isTouchDevice && hoveredProject && (
             <motion.div
               className="absolute inset-0 flex items-center justify-center pointer-events-none z-50"
               initial={{ opacity: 0 }}
@@ -77,26 +101,55 @@ export function ProjectsSection() {
                       : 'md:justify-end'
                   } justify-center`}
                 >
-                  <div
-                    onMouseEnter={() => setHoveredProject({
-                      title: project.title,
-                      description: project.description
-                    })}
-                    onMouseLeave={() => setHoveredProject(null)}
-                  >
-                    <ProjectCard
-                      title={project.title}
-                      description={project.description}
-                      image={project.image}
-                      index={index}
-                    />
-                  </div>
+                  <ProjectCard
+                    title={project.title}
+                    description={project.description}
+                    image={project.image}
+                    index={index}
+                    isActive={selectedProjectId === project.id}
+                    onToggle={() => setSelectedProjectId((prev) => prev === project.id ? null : project.id)}
+                    supportsHover={!isTouchDevice}
+                    onHighlightChange={(highlighted) => {
+                      if (isTouchDevice) return;
+                      if (highlighted) {
+                        setHoveredProject({
+                          title: project.title,
+                          description: project.description
+                        });
+                      } else {
+                        setHoveredProject((current) => current?.title === project.title ? null : current);
+                      }
+                    }}
+                  />
                 </div>
               ))}
             </div>
           </div>
         </div>
       </div>
+
+      {/* Información accesible en dispositivos táctiles */}
+      <AnimatePresence>
+        {isTouchDevice && selectedProject && (
+          <motion.div
+            key={selectedProject.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0.3 }}
+            className="px-8 pb-8"
+          >
+            <div className="rounded-2xl bg-white/10 border border-white/20 shadow-lg backdrop-blur-lg p-6">
+              <h3 className="font-satoshi text-white font-bold text-2xl mb-3">
+                {selectedProject.title}
+              </h3>
+              <p className="font-general text-white/85 text-base leading-relaxed">
+                {selectedProject.description}
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Título en la esquina inferior izquierda */}
       <SectionTitleWrapper>Projects</SectionTitleWrapper>

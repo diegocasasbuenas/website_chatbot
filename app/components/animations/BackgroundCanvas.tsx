@@ -3,7 +3,6 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useRef, useEffect } from "react";
-import { useSimpleScroll } from "@/hooks/useSimpleScroll";
 import { 
   backgroundVertexShader, 
   backgroundFragmentShader, 
