@@ -26,7 +26,7 @@ export function SectionLayout({ children, sectionName, className = '', id }: Sec
   return (
     <section 
       id={id}
-      className={`min-h-screen w-full grid grid-cols-1 grid-rows-[auto_1fr] md:[grid-template-columns:clamp(40px,8vw,60px)_1fr] md:[grid-template-rows:clamp(40px,8vw,60px)_1fr] ${className}`}
+      className={`min-h-screen min-h-[100dvh] w-full grid grid-cols-1 grid-rows-[auto_1fr] md:[grid-template-columns:clamp(40px,8vw,60px)_1fr] md:[grid-template-rows:clamp(40px,8vw,60px)_1fr] ${className}`}
     >
       {/* Esquina superior izquierda - vacía */}
       <div className="hidden md:block"></div>

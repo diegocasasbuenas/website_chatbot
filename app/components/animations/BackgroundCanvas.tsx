@@ -2,12 +2,13 @@
 
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { 
   backgroundVertexShader, 
   backgroundFragmentShader, 
   backgroundUniforms 
 } from "./shaders";
+import { getViewportMetrics, type ViewportMetrics } from "@/app/lib/viewport";
 
 /**
  * Componente que renderiza los blobs animados del background
@@ -47,12 +48,15 @@ function AnimatedBlobs() {
 
   // Ajustar geometría según aspect ratio
   useEffect(() => {
-    const updateGeometry = () => {
+    let rafId: number | null = null;
+
+    const refreshGeometry = () => {
       if (meshRef.current) {
-        // Obtener dimensiones reales de la pantalla incluyendo Safari iPhone
-        const viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-        const viewportHeight = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
-        const aspectRatio = viewportWidth / viewportHeight;
+        // Obtener dimensiones reales del viewport, considerando visualViewport y safe areas
+        const metrics = getViewportMetrics();
+        const effectiveWidth = metrics.width + metrics.safeArea.left + metrics.safeArea.right;
+        const effectiveHeight = metrics.height + metrics.safeArea.top + metrics.safeArea.bottom;
+        const aspectRatio = effectiveWidth / effectiveHeight;
         
         // Calcular dimensiones que aseguren cobertura completa
         let width = 2;
@@ -72,19 +76,36 @@ function AnimatedBlobs() {
       }
     };
 
+    const scheduleGeometryUpdate = () => {
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        refreshGeometry();
+      });
+    };
+
     // Inicializar geometría
-    updateGeometry();
+    refreshGeometry();
 
     // Escuchar cambios de tamaño y orientación
-    window.addEventListener("resize", updateGeometry, { passive: true });
-    window.addEventListener("orientationchange", updateGeometry, { passive: true });
-    // Para Safari iPhone cuando aparecen/desaparecen las barras
-    window.addEventListener("scroll", updateGeometry, { passive: true });
-    
+    window.addEventListener("resize", scheduleGeometryUpdate, { passive: true });
+    window.addEventListener("orientationchange", scheduleGeometryUpdate, { passive: true });
+
+    // Responder a cambios en el visual viewport (por ejemplo, barras del browser en móviles)
+    const visualViewport = typeof window !== 'undefined' ? window.visualViewport : null;
+    if (visualViewport) {
+      visualViewport.addEventListener("resize", scheduleGeometryUpdate);
+    }
+
     return () => {
-      window.removeEventListener("resize", updateGeometry);
-      window.removeEventListener("orientationchange", updateGeometry);
-      window.removeEventListener("scroll", updateGeometry);
+      window.removeEventListener("resize", scheduleGeometryUpdate);
+      window.removeEventListener("orientationchange", scheduleGeometryUpdate);
+      if (visualViewport) {
+        visualViewport.removeEventListener("resize", scheduleGeometryUpdate);
+      }
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+      }
     };
   }, []);
 
@@ -120,16 +141,89 @@ function AnimatedBlobs() {
  * Usa geometría responsive y CSS object-fit para cobertura total.
  */
 export default function BackgroundCanvas() {
+  const [viewport, setViewport] = useState<ViewportMetrics>({
+    width: 0,
+    height: 0,
+    safeArea: { top: 0, bottom: 0, left: 0, right: 0 },
+  });
+  const OVERSCAN_FACTOR = 1.1;
+  const pendingRaf = useRef<number | null>(null);
+  const metricsRef = useRef(viewport);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const updateViewport = () => {
+      const metrics = getViewportMetrics();
+
+      const prev = metricsRef.current;
+      const hasMeaningfulChange =
+        Math.abs(metrics.width - prev.width) >= 1 ||
+        Math.abs(metrics.height - prev.height) >= 1 ||
+        Math.abs(metrics.safeArea.top - prev.safeArea.top) >= 1 ||
+        Math.abs(metrics.safeArea.bottom - prev.safeArea.bottom) >= 1 ||
+        Math.abs(metrics.safeArea.left - prev.safeArea.left) >= 1 ||
+        Math.abs(metrics.safeArea.right - prev.safeArea.right) >= 1;
+
+      if (!hasMeaningfulChange) {
+        return;
+      }
+
+      metricsRef.current = metrics;
+      setViewport(metrics);
+    };
+
+    const scheduleUpdate = () => {
+      if (pendingRaf.current !== null) return;
+      pendingRaf.current = requestAnimationFrame(() => {
+        pendingRaf.current = null;
+        updateViewport();
+      });
+    };
+
+    updateViewport();
+    window.addEventListener("resize", scheduleUpdate, { passive: true });
+    window.addEventListener("orientationchange", scheduleUpdate, { passive: true });
+
+    const visualViewport = window.visualViewport;
+    if (visualViewport) {
+      visualViewport.addEventListener("resize", scheduleUpdate);
+    }
+
+    return () => {
+      window.removeEventListener("resize", scheduleUpdate);
+      window.removeEventListener("orientationchange", scheduleUpdate);
+      if (visualViewport) {
+        visualViewport.removeEventListener("resize", scheduleUpdate);
+      }
+      if (pendingRaf.current !== null) {
+        cancelAnimationFrame(pendingRaf.current);
+        pendingRaf.current = null;
+      }
+    };
+  }, []);
+
+  const totalWidth = viewport.width + viewport.safeArea.left + viewport.safeArea.right;
+  const totalHeight = viewport.height + viewport.safeArea.top + viewport.safeArea.bottom;
+  const overscannedWidth = totalWidth ? totalWidth * OVERSCAN_FACTOR : 0;
+  const overscannedHeight = totalHeight ? totalHeight * OVERSCAN_FACTOR : 0;
+  const overscanOffsetX = overscannedWidth ? (overscannedWidth - totalWidth) / 2 : 0;
+  const overscanOffsetY = overscannedHeight ? (overscannedHeight - totalHeight) / 2 : 0;
+
+  const canvasWidth = overscannedWidth ? `${Math.round(overscannedWidth)}px` : "100vw";
+  const canvasHeight = overscannedHeight ? `${Math.round(overscannedHeight)}px` : "100vh";
+
   return (
     <Canvas
       camera={{ position: [0, 0, 1], fov: 50 }}
       style={{
         position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
-        minHeight: "100dvh", // Para Safari iPhone
+        top: -(viewport.safeArea.top + overscanOffsetY),
+        left: -(viewport.safeArea.left + overscanOffsetX),
+        width: canvasWidth,
+        height: canvasHeight,
+        minHeight: canvasHeight,
+        minWidth: canvasWidth,
         zIndex: -20, // Detrás de todo el contenido
         objectFit: "cover",
         objectPosition: "center",
