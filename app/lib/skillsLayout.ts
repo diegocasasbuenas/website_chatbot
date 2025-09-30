@@ -8,7 +8,6 @@ interface SkillNodeData {
   id: string;
   title: string;
   description?: string;
-  projects?: { title: string; description: string }[];
   tools?: string[];
   children?: SkillNodeData[];
 }
@@ -17,7 +16,6 @@ interface CalculatedNode {
   id: string;
   title: string;
   description?: string;
-  projects?: { title: string; description: string }[];
   tools?: string[];
   position: NodePosition;
   children: CalculatedNode[];
@@ -75,14 +73,12 @@ export function calculateNodePositions(
       id: parentNode.id,
       title: parentNode.title,
       description: parentNode.description,
-      projects: parentNode.projects,
       tools: parentNode.tools,
       position: parentPosition,
       children: (parentNode.children || []).map((child, childIndex) => ({
         id: child.id,
         title: child.title,
         description: child.description,
-        projects: child.projects,
         tools: child.tools,
         position: childPositions[childIndex] || { x: 0, y: 0 }, // Fallback position
         children: []

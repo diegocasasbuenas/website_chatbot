@@ -7,7 +7,8 @@ export const metadata: Metadata = {
   description:
     "Portfolio showcasing AI, Machine Learning, and MLOps projects by Diego.",
   icons: {
-    icon: "/favicon.ico",
+    icon: [{ url: "/favicon.ico", sizes: "any", rel: "icon" }],
+    shortcut: "/favicon.ico",
   },
 };
 

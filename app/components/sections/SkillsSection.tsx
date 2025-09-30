@@ -15,7 +15,6 @@ export function SkillsSection() {
     id: string;
     title: string;
     description?: string;
-    projects?: { title: string; description: string }[];
     tools?: string[];
   }>(null);
   // Estado para controlar el render del texto Explore
@@ -83,7 +82,7 @@ export function SkillsSection() {
               Explore Diego’s Skills
             </h2>
             <p className="font-general text-white/80 text-base leading-relaxed">
-              Discover the expertise behind Diego’s AI work. Tap each area to expand and learn about related projects and tools.
+              Discover the expertise behind Diego’s AI work. Tap each area to explore focus topics and the tools behind them.
             </p>
           </GlassCard>
 
@@ -115,22 +114,6 @@ export function SkillsSection() {
                       </span>
                     ))}
                   </div>
-                </div>
-              )}
-
-              {parentNode.projects && parentNode.projects.length > 0 && (
-                <div className="space-y-2">
-                  <p className="font-general text-white/70 text-xs uppercase tracking-wide">
-                    Related Projects
-                  </p>
-                  <ul className="space-y-2">
-                    {parentNode.projects.map((project) => (
-                      <li key={project.title} className="text-white/85 text-sm leading-relaxed">
-                        <span className="font-semibold">{project.title}</span>
-                        {project.description ? ` – ${project.description}` : ''}
-                      </li>
-                    ))}
-                  </ul>
                 </div>
               )}
 
@@ -264,16 +247,6 @@ export function SkillsSection() {
                   {selectedNode.description && (
                     <p className="font-general text-white/80 text-[16px] font-normal leading-relaxed">{selectedNode.description}</p>
                   )}
-                  {selectedNode.projects && selectedNode.projects.length > 0 && (
-                    <div>
-                      <div className="font-bold text-white text-[15px] mb-1 flex items-center gap-2"><span>🚀</span> Related Projects</div>
-                      <ul className="list-disc ml-5">
-                        {selectedNode.projects.map((proj, idx) => (
-                          <li key={idx} className="text-white/80 text-[16px] mb-1 leading-relaxed"><span className="font-semibold">{proj.title}</span> – {proj.description}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
                   {selectedNode.tools && selectedNode.tools.length > 0 && (
                     <div>
                       <div className="font-bold text-white text-[15px] mb-1 flex items-center gap-2"><span>🛠</span> Tools & Stack</div>
@@ -305,7 +278,7 @@ export function SkillsSection() {
               <p
                 className="font-general text-white/75 text-[16px] font-normal leading-normal"
               >
-                Click on each node to discover detailed explanations, related projects, and the tools behind them.
+                Click on each node to discover detailed explanations and the tools behind them.
               </p>
             </div>
           )}
@@ -349,7 +322,6 @@ export function SkillsSection() {
                   id: parentNode.id,
                   title: parentNode.title,
                   description: parentNode.description,
-                  projects: parentNode.projects,
                   tools: parentNode.tools
                 })}
               />
@@ -369,7 +341,6 @@ export function SkillsSection() {
                     id: childNode.id,
                     title: childNode.title,
                     description: childNode.description,
-                    projects: childNode.projects,
                     tools: childNode.tools
                   })}
                 />

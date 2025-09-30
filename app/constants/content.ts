@@ -131,154 +131,246 @@ export const projectsData = [
 // 6. Skills Graph (Skills Section)
 // ===============================
 export const skillsData = {
-  // Texto del nodo central (corazón)
   centerNode: "Diego's Skills",
-
-  // Nodos principales y sus hijos con info detallada
   parentNodes: [
-    // --- Edita cada bloque para cambiar los nodos principales y sus hijos ---
     {
       id: "core-ai-ml",
       title: "Core AI & ML",
-      description: "Fundamental concepts and models for artificial intelligence and machine learning.",
-      projects: [
-        { title: "ML Foundations", description: "Building core models for prediction and classification." },
-        { title: "AI Research", description: "Exploring new algorithms and approaches." }
+      description:
+        "Foundations of AI and ML for prediction, classification, and optimization problems.",
+      tools: [
+        "Python",
+        "Scikit-learn",
+        "NumPy",
+        "Pandas",
+        "Matplotlib",
+        "Seaborn",
+        "Jupyter Notebooks",
       ],
-      tools: ["Python", "Scikit-learn", "TensorFlow", "PyTorch"],
       children: [
         {
-          id: "anomaly-detection",
-          title: "Anomaly Detection",
-          description: "Identify unusual patterns in financial data, e-commerce, and operations.",
-          projects: [
-            { title: "Fraud Detection System", description: "Detecting anomalies in financial transactions." },
-            { title: "E-commerce Monitoring", description: "Real-time detection of unusual shopping behaviors." }
+          id: "deep-learning",
+          title: "Deep Learning",
+          description:
+            "Deep neural networks for images, text, and structured data including CNNs, RNNs, and Transformers.",
+          tools: [
+            "TensorFlow",
+            "PyTorch",
+            "Keras",
+            "Hugging Face Transformers",
+            "OpenCV",
+            "spaCy",
           ],
-          tools: ["Python", "PyOD", "Scikit-learn", "Pandas"]
         },
         {
           id: "time-series",
           title: "Time Series",
-          description: "Forecasting and analyzing temporal data for business and science.",
-          projects: [
-            { title: "Sales Forecasting", description: "Predicting future sales using time series models." }
+          description:
+            "Modeling and forecasting sequential data to capture trends, seasonality, and anomalies.",
+          tools: [
+            "Statsmodels",
+            "Prophet",
+            "ARIMA",
+            "LSTMs",
+            "GRUs",
+            "scikit-learn",
+            "PyTorch Forecasting",
           ],
-          tools: ["Python", "Prophet", "Statsmodels", "Pandas"]
         },
         {
-          id: "learning",
-          title: "Learning",
-          description: "Supervised and unsupervised learning techniques.",
-          projects: [
-            { title: "Customer Segmentation", description: "Grouping users based on behavior." }
+          id: "anomaly-detection",
+          title: "Anomaly Detection",
+          description:
+            "Techniques for spotting unusual data points or behaviors in complex datasets.",
+          tools: [
+            "Scikit-learn",
+            "PyOD",
+            "Isolation Forest",
+            "DBSCAN",
+            "One-Class SVM",
+            "TensorFlow",
+            "PyTorch",
           ],
-          tools: ["Scikit-learn", "Python"]
-        },
-        {
-          id: "deep-learning",
-          title: "Deep Learning",
-          description: "Neural networks for image, text, and data analysis.",
-          projects: [
-            { title: "Image Classifier", description: "Classifying images using CNNs." }
-          ],
-          tools: ["TensorFlow", "PyTorch", "Keras"]
         },
         {
           id: "recommenders",
           title: "Recommenders",
-          description: "Building recommendation systems for products and content.",
-          projects: [
-            { title: "Movie Recommender", description: "Suggesting movies based on user preferences." }
+          description:
+            "Systems based on collaborative filtering, content-based, and hybrid recommendation approaches.",
+          tools: [
+            "Surprise",
+            "LightFM",
+            "TensorFlow Recommenders",
+            "PyTorch Lightning",
+            "implicit",
+            "Scikit-learn",
+            "FAISS",
           ],
-          tools: ["Python", "Surprise", "LightFM"]
-        }
-      ]
-    },
-    {
-      id: "llms",
-      title: "LLM's",
-      description: "Large Language Models for advanced text understanding and generation.",
-      projects: [
-        { title: "Chatbot Platform", description: "Conversational AI using LLMs." }
+        },
+        {
+          id: "learning",
+          title: "Learning",
+          description:
+            "Supervised and unsupervised learning algorithms for classification, regression, and clustering.",
+          tools: [
+            "Scikit-learn",
+            "XGBoost",
+            "LightGBM",
+            "CatBoost",
+            "Random Forests",
+            "K-Means",
+            "PCA",
+            "Gradient Boosting",
+          ],
+        },
       ],
-      tools: ["Python", "HuggingFace", "LangChain"],
-      children: [
-        {
-          id: "applications",
-          title: "Applications",
-          description: "Practical uses of LLMs in business and research.",
-          projects: [
-            { title: "Legal Assistant", description: "Processing legal documents with LLMs." }
-          ],
-          tools: ["Python", "OpenAI API"]
-        },
-        {
-          id: "rag",
-          title: "RAG",
-          description: "Retrieval-Augmented Generation for contextual responses.",
-          projects: [
-            { title: "RAG System", description: "Combining search and generation for better answers." }
-          ],
-          tools: ["LangChain", "Python"]
-        },
-        {
-          id: "fine-tuning",
-          title: "Fine-Tuning",
-          description: "Adapting LLMs to specific domains and tasks.",
-          projects: [
-            { title: "Domain LLM", description: "Custom training for industry knowledge." }
-          ],
-          tools: ["HuggingFace", "Python"]
-        },
-        {
-          id: "agents",
-          title: "Agents",
-          description: "Autonomous agents powered by LLMs.",
-          projects: [
-            { title: "Workflow Agent", description: "Automating business processes with agents." }
-          ],
-          tools: ["LangChain", "Python"]
-        }
-      ]
     },
     {
       id: "mlops",
-      title: "MLOps",
-      description: "Machine Learning Operations for scalable deployment and monitoring.",
-      projects: [
-        { title: "ML Pipeline", description: "Automated training and deployment." }
+      title: "MLOps & Deployment",
+      description:
+        "Automation, monitoring, and scaling of machine learning workflows in production environments.",
+      tools: [
+        "MLflow",
+        "DVC",
+        "Airflow",
+        "Prefect",
+        "Kubeflow",
+        "Docker",
+        "Kubernetes",
+        "Terraform",
+        "Prometheus",
+        "Grafana",
       ],
-      tools: ["Docker", "Kubernetes", "Python"],
       children: [
-        {
-          id: "ci-cd",
-          title: "CI/CD",
-          description: "Continuous integration and delivery for ML workflows.",
-          projects: [
-            { title: "Model CI/CD", description: "Automated testing and deployment of models." }
-          ],
-          tools: ["GitHub Actions", "Docker"]
-        },
         {
           id: "deployment",
           title: "Deployment",
-          description: "Serving models in production environments.",
-          projects: [
-            { title: "Model Serving", description: "Deploying models with REST APIs." }
+          description:
+            "Serving models with scalable APIs and managed services for real-world consumption.",
+          tools: [
+            "FastAPI",
+            "Flask",
+            "Docker",
+            "Kubernetes",
+            "TensorFlow Serving",
+            "TorchServe",
+            "AWS SageMaker",
+            "Vertex AI",
+            "Azure ML",
           ],
-          tools: ["FastAPI", "Docker"]
         },
         {
           id: "pipelines",
           title: "Pipelines",
-          description: "End-to-end automation of ML workflows.",
-          projects: [
-            { title: "Data Pipeline", description: "Automating data ingestion and processing." }
+          description:
+            "Automated workflows covering data preprocessing, training, and deployment stages.",
+          tools: [
+            "Airflow",
+            "Prefect",
+            "Kedro",
+            "Luigi",
+            "Scikit-learn Pipelines",
+            "Kubeflow Pipelines",
+            "Dagster",
           ],
-          tools: ["Airflow", "Python"]
-        }
-      ]
-    }
-  ]
+        },
+        {
+          id: "ci-cd",
+          title: "CI/CD",
+          description:
+            "Continuous integration and delivery practices tailored for ML systems.",
+          tools: [
+            "GitHub Actions",
+            "GitLab CI/CD",
+            "Jenkins",
+            "CircleCI",
+            "ArgoCD",
+            "Docker Hub",
+            "Helm",
+          ],
+        },
+      ],
+    },
+    {
+      id: "llm-stack",
+      title: "LLMs & Intelligent Systems",
+      description:
+        "Large language models, fine-tuning, and agentic systems for advanced reasoning and automation.",
+      tools: [
+        "Hugging Face Transformers",
+        "LangChain",
+        "OpenAI API",
+        "Anthropic Claude",
+        "vLLM",
+        "TensorRT-LLM",
+        "Weights & Biases",
+      ],
+      children: [
+        {
+          id: "fine-tuning",
+          title: "Fine-Tuning",
+          description:
+            "Customizing pre-trained models for domain-specific tasks with optimized adapters.",
+          tools: [
+            "Hugging Face PEFT",
+            "LoRA",
+            "QLoRA",
+            "PyTorch Lightning",
+            "DeepSpeed",
+            "bitsandbytes",
+          ],
+        },
+        {
+          id: "agents",
+          title: "Agents",
+          description:
+            "Intelligent agents that orchestrate tools and data sources to complete complex workflows.",
+          tools: [
+            "LangChain",
+            "CrewAI",
+            "AutoGen",
+            "Semantic Kernel",
+            "OpenAI Function Calling",
+            "ChromaDB",
+            "FAISS",
+          ],
+        },
+        {
+          id: "rag",
+          title: "RAG",
+          description:
+            "Retrieval-Augmented Generation pipelines for accurate, context-aware responses.",
+          tools: [
+            "FAISS",
+            "ChromaDB",
+            "Weaviate",
+            "Pinecone",
+            "Milvus",
+            "LangChain",
+            "LlamaIndex",
+            "Elasticsearch",
+          ],
+        },
+        {
+          id: "applications",
+          title: "Applications",
+          description:
+            "AI-powered applications that solve real business and technical challenges.",
+          tools: [
+            "Streamlit",
+            "Gradio",
+            "FastAPI",
+            "Flask",
+            "Dash",
+            "Plotly",
+            "Docker",
+            "AWS",
+            "GCP",
+            "Azure",
+          ],
+        },
+      ],
+    },
+  ],
 };
