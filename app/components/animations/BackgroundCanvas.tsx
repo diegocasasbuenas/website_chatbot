@@ -2,11 +2,11 @@
 
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useMemo } from "react";
 import { 
   backgroundVertexShader, 
   backgroundFragmentShader, 
-  backgroundUniforms 
+  createBackgroundUniforms 
 } from "./shaders";
 import { getViewportMetrics, type ViewportMetrics } from "@/app/lib/viewport";
 
@@ -19,10 +19,28 @@ import { getViewportMetrics, type ViewportMetrics } from "@/app/lib/viewport";
  * - Actualización de uniformes en cada frame
  * - Geometría responsive según aspect ratio
  */
-function AnimatedBlobs() {
+interface AnimatedBlobsProps {
+  blobScale: number;
+  noiseStrength: number;
+  motionStrength: number;
+}
+
+function AnimatedBlobs({ blobScale, noiseStrength, motionStrength }: AnimatedBlobsProps) {
   const materialRef = useRef<THREE.ShaderMaterial>(null);
   const meshRef = useRef<THREE.Mesh>(null);
   const scrollProgressRef = useRef(0);
+  const uniforms = useRef(createBackgroundUniforms()).current;
+
+  // Sincronizar intensidad de blobs con los props calculados
+  useEffect(() => {
+    uniforms.uBlobScale.value = blobScale;
+    uniforms.uNoiseStrength.value = noiseStrength;
+    uniforms.uMotionStrength.value = motionStrength;
+    if (!materialRef.current) return;
+    materialRef.current.uniforms.uBlobScale.value = blobScale;
+    materialRef.current.uniforms.uNoiseStrength.value = noiseStrength;
+    materialRef.current.uniforms.uMotionStrength.value = motionStrength;
+  }, [blobScale, noiseStrength, motionStrength]);
 
   // Detectar scroll directamente sin useState para evitar re-renders
   useEffect(() => {
@@ -112,10 +130,7 @@ function AnimatedBlobs() {
   // Actualizar uniformes en cada frame de Three.js
   useFrame((state) => {
     if (materialRef.current) {
-      // Tiempo siempre corriendo para animaciones fluidas
       materialRef.current.uniforms.uTime.value = state.clock.elapsedTime;
-      
-      // Scroll progress sin causar re-renders de React
       materialRef.current.uniforms.uScroll.value = scrollProgressRef.current;
     }
   });
@@ -125,7 +140,7 @@ function AnimatedBlobs() {
       <planeGeometry args={[2, 2]} />
       <shaderMaterial
         ref={materialRef}
-        uniforms={backgroundUniforms}
+        uniforms={uniforms}
         fragmentShader={backgroundFragmentShader}
         vertexShader={backgroundVertexShader}
       />
@@ -213,6 +228,26 @@ export default function BackgroundCanvas() {
   const canvasWidth = overscannedWidth ? `${Math.round(overscannedWidth)}px` : "100vw";
   const canvasHeight = overscannedHeight ? `${Math.round(overscannedHeight)}px` : "100vh";
 
+  const { blobScale, noiseStrength, motionStrength } = useMemo(() => {
+    if (!totalWidth) {
+      return { blobScale: 1, noiseStrength: 1, motionStrength: 1 };
+    }
+
+    if (totalWidth <= 480) {
+      return { blobScale: 1.6, noiseStrength: 1.8, motionStrength: 1.7 };
+    }
+
+    if (totalWidth <= 768) {
+      return { blobScale: 1.4, noiseStrength: 1.5, motionStrength: 1.4 };
+    }
+
+    if (totalWidth <= 1024) {
+      return { blobScale: 1.2, noiseStrength: 1.3, motionStrength: 1.2 };
+    }
+
+    return { blobScale: 1, noiseStrength: 1, motionStrength: 1 };
+  }, [totalWidth]);
+
   return (
     <Canvas
       camera={{ position: [0, 0, 1], fov: 50 }}
@@ -232,7 +267,11 @@ export default function BackgroundCanvas() {
         backfaceVisibility: "hidden" // Optimización
       }}
     >
-      <AnimatedBlobs />
+      <AnimatedBlobs
+        blobScale={blobScale}
+        noiseStrength={noiseStrength}
+        motionStrength={motionStrength}
+      />
     </Canvas>
   );
 }

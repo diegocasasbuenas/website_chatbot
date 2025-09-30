@@ -112,6 +112,11 @@ export function SectionLayout({ children, sectionName, className = '', id }: Sec
       
       {/* Contenido principal de la sección */}
       <div className="relative flex flex-col p-6 md:p-[clamp(20px,4vw,60px)]">
+        <div className="md:hidden mb-6 w-full flex justify-center">
+          <h2 className="text-white text-[clamp(32px,9vw,56px)] font-[900] tracking-[-1px] text-center" style={{ fontFamily: 'var(--font-satoshi)', lineHeight: '95%' }}>
+            {sectionName}
+          </h2>
+        </div>
         {children}
       </div>
     </section>

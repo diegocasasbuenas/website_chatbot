@@ -99,24 +99,33 @@ export function ProjectCard({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="absolute inset-0 bg-black/65 backdrop-blur-sm p-6 flex flex-col justify-end"
+            className="absolute inset-0 flex flex-col justify-end"
           >
-            <motion.h3
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2, delay: 0.05 }}
-              className="text-white font-satoshi text-2xl font-semibold mb-3"
-            >
-              {title}
-            </motion.h3>
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2, delay: 0.1 }}
-              className="text-white/90 font-general text-base leading-relaxed"
-            >
-              {description}
-            </motion.p>
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  'linear-gradient(180deg, rgba(0,0,0,0.05) 5%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.75) 100%)'
+              }}
+            />
+            <div className="relative p-6 pt-16">
+              <motion.h3
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.2, delay: 0.05 }}
+                className="text-white font-satoshi text-2xl font-semibold mb-3"
+              >
+                {title}
+              </motion.h3>
+              <motion.p
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.2, delay: 0.1 }}
+                className="text-white/90 font-general text-base leading-relaxed"
+              >
+                {description}
+              </motion.p>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
