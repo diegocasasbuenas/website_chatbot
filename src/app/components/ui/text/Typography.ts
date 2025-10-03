@@ -12,7 +12,7 @@ const variantStyles: Record<TypographyVariant, string> = {
     "text-white font-satoshi text-[168px] font-black uppercase tracking-[-8.4px] leading-none text-center",
   subtitle:
     "text-white font-satoshi text-[168px] font-bold tracking-[-8.4px] leading-none text-center",
-  body: "text-base",
+  body: "text-white font-general text-[24px] font-normal",
 };
 
 const variantElements: Record<TypographyVariant, ElementType> = {
@@ -28,7 +28,7 @@ type TypographyProps<T extends ElementType> = {
   className?: string;
 } & Omit<ComponentPropsWithRef<T>, "as" | "children" | "className" | "variant">;
 
-function Typography<T extends ElementType = "h1">(props: TypographyProps<T>) {
+export default function Typography<T extends ElementType = "h1">(props: TypographyProps<T>) {
   const { as, children, className, variant, ...rest } = props;
   const Component = as || variantElements[variant || "title"];
   const variantClasses = variant ? variantStyles[variant] : "";
@@ -40,5 +40,3 @@ function Typography<T extends ElementType = "h1">(props: TypographyProps<T>) {
     children
   );
 }
-
-export default Typography;
