@@ -145,18 +145,23 @@ export function HeroSection() {
       </AnimatePresence>
 
       {/* Input interactivo con botón de envío */}
-      <form onSubmit={handleSubmit} className="w-full max-w-[min(940px,85vw)] flex justify-center px-4">
-        <GlassInput 
-          placeholder="What would Diego do as your AI copilot?"
-          className="flex-1 !rounded-l-[24px] !rounded-r-none"
-          fullWidth={true}
-          value={inputValue}
-          onChange={handleInputChange}
-          disabled={isLoading}
-        />
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-[min(1500px,95vw)] px-4 pb-6 flex items-stretch gap-3"
+      >
+        <div className="flex-1 min-w-0">
+          <GlassInput 
+            placeholder="What would Diego do as your AI copilot?"
+            className="!rounded-l-[24px] !rounded-r-none"
+            fullWidth={true}
+            value={inputValue}
+            onChange={handleInputChange}
+            disabled={isLoading}
+          />
+        </div>
         <GlassButton 
           type="submit" 
-          className="!rounded-r-[24px] !rounded-l-none ml-2 flex-shrink-0"
+          className="!rounded-r-[24px] !rounded-l-none flex-shrink-0"
           disabled={isSubmitDisabled}
         >
           <svg width="0" height="0" style={{ position: 'absolute' }}>

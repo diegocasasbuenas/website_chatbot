@@ -30,12 +30,14 @@ html {
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
   font-size: var(--fluid-base-font);
+  overscroll-behavior: none;
 }
 
 body {
   margin: 0;
   font-family: var(--font-general);
   background-color: #000000; /* Fallback para áreas no cubiertas por el canvas */
+  overscroll-behavior: none;
 }
 
 section {
