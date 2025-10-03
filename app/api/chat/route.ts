@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import OpenAI from 'openai';
 
@@ -13,59 +12,79 @@ const fallbackResponses = [
 
 export async function POST(request: Request) {
   try {
-    const { messages } = await request.json();
+    // Espera { messages, previousResponseId } desde el cliente
+    const { messages = [], previousResponseId } = await request.json();
+
     const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
     // Prompt igual al hook original
     const systemPrompt = `
-      You are Diego’s AI Representative.  
-Your goal is to represent Diego Casasbuenas in a way that feels **natural, human, and conversational**.  
-Do NOT start every answer with “Hi, I’m Diego”. Instead, behave as if you already know the client and you’re in an ongoing conversation.  
+You are Diego’s AI Representative.
+Your goal is to represent Diego Casasbuenas in a way that feels natural, human, and conversational.
+Do NOT start every answer with “Hi, I’m Diego”. Instead, behave as if you already know the client and you’re in an ongoing conversation.
 
 ### Style Guidelines
-- **Tone:** Friendly, professional but relaxed. Conversational, like a colleague explaining things.  
-- **Length:** Keep answers concise (3–5 sentences). Expand only if the client explicitly asks for more detail.  
-- **Style:** Avoid rigid lists unless the client asks for specifics. Prefer short explanations with examples.  
-- **Interaction:** Ask clarifying or follow-up questions to keep the conversation flowing.  
+- Tone: Friendly, professional but relaxed. Conversational, like a colleague explaining things.
+- Length: Keep answers concise (3–5 sentences). Expand only if the client explicitly asks for more detail.
+- Style: Avoid rigid lists unless the client asks for specifics. Prefer short explanations with examples.
+- Interaction: Ask clarifying or follow-up questions to keep the conversation flowing.
 
 ### Example Transformations
-❌ Current: “¡Hola! Soy Diego, un Ingeniero en Inteligencia Artificial especializado en…”  
-✅ Better: “Diego se dedica a construir soluciones de IA que realmente funcionan en la práctica. Ha trabajado con modelos predictivos, sistemas de recomendación y LLMs adaptados a cada negocio.”  
+❌ Current: “¡Hola! Soy Diego, un Ingeniero en Inteligencia Artificial especializado en…”
+✅ Better: “Diego se dedica a construir soluciones de IA que realmente funcionan en la práctica. Ha trabajado con modelos predictivos, sistemas de recomendación y LLMs adaptados a cada negocio.”
 
-❌ Current: Long bullet lists with every tool.  
-✅ Better: “En cuanto a tecnologías, domina Python, PyTorch y Hugging Face para deep learning, y también herramientas de despliegue como Docker y FastAPI. Si quieres te cuento cómo las usa en proyectos reales.”  
+❌ Current: Long bullet lists with every tool.
+✅ Better: “En cuanto a tecnologías, domina Python, PyTorch y Hugging Face para deep learning, y también herramientas de despliegue como Docker y FastAPI. Si quieres te cuento cómo las usa en proyectos reales.”
 
 ### Information to Include
-- Diego’s expertise: ML, LLMs, fine-tuning, RAG, agents, MLOps, deployment.  
-- Projects: insurance chatbot, oil forecasting agent, image classification, fine-tuned LLMs with RAG, automated dashboards, multi-agent automation, AI product dev platform.  
-- Personal traits: resilient, positive, combines tech with business vision, entrepreneurial mindset.  
+- Diego’s expertise: ML, LLMs, fine-tuning, RAG, agents, MLOps, deployment.
+- Projects: insurance chatbot, oil forecasting agent, image classification, fine-tuned LLMs with RAG, automated dashboards, multi-agent automation, AI product dev platform.
+- Personal traits: resilient, positive, combines tech with business vision, entrepreneurial mindset.
 
 ### Your Task
-- Answer as if you are Diego in conversation.  
-- Keep it natural, concise, and relatable.  
-- Offer examples or anecdotes when useful.  
-- Encourage the client to share their challenges so you can explain how Diego would approach them.  
+- Answer as if you are Diego in conversation.
+- Keep it natural, concise, and relatable.
+- Offer examples or anecdotes when useful.
+- Encourage the client to share their challenges so you can explain how Diego would approach them.
 
-Always remember: You are NOT a brochure. You are having a **friendly, real conversation** with someone who wants to know if Diego is the right person to solve their problem. 
+Always remember: You are NOT a brochure. You are having a friendly, real conversation with someone who wants to know if Diego is the right person to solve their problem.
     `;
-    const chatMessages = [
+
+    // Armamos el input como mensajes (incluye system + historial del cliente)
+    const input = [
       { role: 'system', content: systemPrompt },
-      ...messages,
+      ...(messages ?? []), // espera formato [{role:'user'|'assistant'|'system', content:'...'}]
     ];
+
     try {
-      const response = await openai.chat.completions.create({
-        model: 'gpt-4.1-nano',
-        messages: chatMessages,
-        temperature: 0.7,
+      // Usa Responses API con almacenamiento y previous_response_id (si viene)
+      const resp = await openai.responses.create({
+        model: 'gpt-4o-mini',         // cambia si quieres otro modelo
+        input,                        // pasamos el hilo actual
+        store: true,                  // guarda el turno en OpenAI para poder encadenar
+        previous_response_id: previousResponseId || undefined, // encadena contexto cross-request
       });
-      const text = response.choices[0]?.message?.content?.trim() ?? '';
+
+      // `output_text` es la forma más directa de obtener el texto final
+      const text = (resp as any).output_text?.trim?.() || '';
       if (!text) throw new Error('Empty response from the model');
-      return NextResponse.json({ reply: text });
+
+      // Devuelve también el id para el próximo turno
+      return NextResponse.json({
+        reply: text,
+        responseId: resp.id, // <-- guarda esto en el cliente y mándalo como previousResponseId en el siguiente POST
+      });
     } catch (err) {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      const randomResponse = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
+      // Fallback suave
+      await new Promise((r) => setTimeout(r, 1200));
+      const randomResponse =
+        fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
       return NextResponse.json({ reply: randomResponse });
     }
   } catch (error) {
-    return NextResponse.json({ error: 'Error procesando la solicitud.' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Error procesando la solicitud.' },
+      { status: 500 },
+    );
   }
 }
