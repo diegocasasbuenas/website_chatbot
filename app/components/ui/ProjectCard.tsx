@@ -14,6 +14,7 @@ interface ProjectCardProps {
   supportsHover: boolean;
   onHighlightChange?: (isHighlighted: boolean) => void;
   variant?: 'mobile' | 'desktop' | 'wide';
+  githubUrl?: string;
 }
 
 export function ProjectCard({
@@ -26,6 +27,7 @@ export function ProjectCard({
   supportsHover,
   onHighlightChange,
   variant = 'desktop',
+  githubUrl,
 }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const showColor = supportsHover ? isHovered : isActive;
@@ -105,7 +107,7 @@ export function ProjectCard({
       tabIndex={0}
       aria-pressed={isActive}
     >
-      {/* Imagen con filtro de escala de grises */}
+      {/* Imagen envolviendo anchor si hay URL */}
       <div className="relative w-full h-full">
         <Image
           src={image}
@@ -116,6 +118,26 @@ export function ProjectCard({
           }`}
           sizes={widthStyle.imageSizes}
         />
+        {!supportsHover && githubUrl && isActive && (
+          <a
+            href={githubUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="absolute inset-0"
+          >
+            <span className="sr-only">View {title} on GitHub</span>
+          </a>
+        )}
+        {supportsHover && githubUrl && (
+          <a
+            href={githubUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="absolute inset-0"
+          >
+            <span className="sr-only">View {title} on GitHub</span>
+          </a>
+        )}
       </div>
 
       <AnimatePresence>
@@ -152,6 +174,19 @@ export function ProjectCard({
               >
                 {description}
               </motion.p>
+              {githubUrl && (
+                <motion.a
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2, delay: 0.15 }}
+                  href={githubUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center mt-4 px-4 py-2 rounded-full bg-white/20 text-white text-sm font-medium hover:bg-white/30 transition"
+                >
+                  View on GitHub
+                </motion.a>
+              )}
             </div>
           </motion.div>
         )}

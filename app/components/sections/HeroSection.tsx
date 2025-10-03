@@ -46,7 +46,7 @@ export function HeroSection() {
         </div>
 
         {/* Language Buttons */}
-        <div className="hidden lg:flex items-center gap-4">
+        <div className="hidden items-center gap-4">
           <button className="text-white font-general text-2xl font-medium hover:opacity-80 transition-opacity cursor-pointer">
             EN
           </button>

@@ -130,6 +130,7 @@ export function ProjectsSection() {
                     onToggle={() => setSelectedProjectId((prev) => prev === project.id ? null : project.id)}
                     supportsHover={!isTouchDevice}
                     variant={cardVariant}
+                    githubUrl={project.githubUrl}
                     onHighlightChange={(highlighted) => {
                       if (isTouchDevice) return;
                       if (highlighted) {

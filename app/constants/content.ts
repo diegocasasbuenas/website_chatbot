@@ -87,43 +87,50 @@ export const projectsData = [
     id: "project-1",
     title: "AI Insurance Policy Chatbot",
     description: "Dual assistant that helps employees and clients query insurance policies with instant, accurate responses.",
-    image: "/images/projects/1.png"
+    image: "/images/projects/1.png",
+    githubUrl: "https://github.com/placeholder/insurance-chatbot"
   },
   {
     id: "project-2", 
     title: "Oil Production Forecasting Agent",
     description: "LLM-powered analytical agent that produces approximate oil production forecasts to support strategic decisions.",
-    image: "/images/projects/2.png"
+    image: "/images/projects/2.png",
+    githubUrl: "https://github.com/placeholder/oil-forecast-agent"
   },
   {
     id: "project-3",
     title: "Image Classification with Deep Learning",
     description: "ResNet and Vision Transformer models that classify and label images for industries such as retail and healthcare.",
-    image: "/images/projects/3.png"
+    image: "/images/projects/3.png",
+    githubUrl: "https://github.com/placeholder/image-classification"
   },
   {
     id: "project-4",
     title: "Custom Fine-Tuned LLMs with RAG",
     description: "Open-source LLM fine-tuning pipeline with RAG inference served via FastAPI, enabling custom personalities and APIs.",
-    image: "/images/projects/4.png"
+    image: "/images/projects/4.png",
+    githubUrl: "https://github.com/placeholder/llm-rag-pipeline"
   },
   {
     id: "project-5",
     title: "Automated AI Dashboards",
     description: "Interactive dashboards wired to ML models, delivering real-time insights, automated reports, and predictive analytics.",
-    image: "/images/projects/5.png"
+    image: "/images/projects/5.png",
+    githubUrl: "https://github.com/placeholder/ai-dashboards"
   },
   {
     id: "project-6",
     title: "Multi-Agent Process Automation",
     description: "Network of autonomous agents that execute complex workflows while users interact through a single conversational LLM.",
-    image: "/images/projects/6.png"
+    image: "/images/projects/6.png",
+    githubUrl: "https://github.com/placeholder/multi-agent-automation"
   },
   {
     id: "project-7",
     title: "AI Product Development Platform",
     description: "End-to-end AI product design—from training neural networks to deploying scalable APIs with key-based access.",
-    image: "/images/projects/7.png"
+    image: "/images/projects/7.png",
+    githubUrl: "https://github.com/placeholder/ai-product-platform"
   }
 ];
 
