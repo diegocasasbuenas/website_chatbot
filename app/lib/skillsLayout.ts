@@ -27,7 +27,8 @@ interface LayoutConfig {
   nodeSize: number;
   minSpacing: number;
   heartPosition: NodePosition;
-  baseRadius?: number;
+  parentRadius?: number;
+  childRadius?: number;
 }
 
 const DEFAULT_CONFIG: LayoutConfig = {
@@ -35,7 +36,9 @@ const DEFAULT_CONFIG: LayoutConfig = {
   containerHeight: 500, // Más compacto
   nodeSize: 75,
   minSpacing: 120, // Aumentar spacing para evitar solapamientos
-  heartPosition: { x: 400, y: 250 } // Centro del contenedor más pequeño
+  heartPosition: { x: 400, y: 250 }, // Centro del contenedor más pequeño
+  parentRadius: 180,
+  childRadius: 160
 };
 
 /**
@@ -95,7 +98,7 @@ function calculateParentPositionsAroundHeart(
   config: LayoutConfig
 ): NodePosition[] {
   const positions: NodePosition[] = [];
-  const radius = 180; // Radio más pequeño para nodos más cercanos
+  const radius = config.parentRadius ?? 180;
   
   if (parentCount === 1) {
     // Un solo nodo: a la derecha del corazón
@@ -151,9 +154,9 @@ function calculateChildPositionsAroundParent(
   }
   
   const heartPosition = config.heartPosition;
-  const childRadius = 160; // Radio más pequeño para nodos hijo más cercanos
-  const nodeSize = 75; // Tamaño de cada nodo
-  const minDistance = nodeSize + 30; // Distancia mínima entre nodos (con más margen)
+  const childRadius = config.childRadius ?? (config.parentRadius ?? 160) * 0.8;
+  const nodeSize = config.nodeSize;
+  const minDistance = config.minSpacing;
   
   // Calcular el ángulo hacia el corazón desde el padre
   const angleToHeart = Math.atan2(

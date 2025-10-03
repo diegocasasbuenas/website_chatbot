@@ -13,6 +13,7 @@ interface ProjectCardProps {
   onToggle: () => void;
   supportsHover: boolean;
   onHighlightChange?: (isHighlighted: boolean) => void;
+  variant?: 'mobile' | 'desktop' | 'wide';
 }
 
 export function ProjectCard({
@@ -24,10 +25,35 @@ export function ProjectCard({
   onToggle,
   supportsHover,
   onHighlightChange,
+  variant = 'desktop',
 }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const showColor = supportsHover ? isHovered : isActive;
-  const cardHeight = supportsHover ? 531 : 420;
+  const resolvedVariant = variant;
+
+  const widthStyle = (() => {
+    switch (resolvedVariant) {
+      case 'mobile':
+        return { width: '100%', maxWidth: '100%', aspectRatio: '3 / 4', imageSizes: '100vw' };
+      case 'wide':
+        return {
+          width: 'clamp(320px, 24vw, 620px)',
+          maxWidth: 'min(24vw, 640px)',
+          aspectRatio: supportsHover ? '400 / 531' : '3 / 4',
+          imageSizes: '(max-width: 768px) 90vw, (max-width: 1440px) 32vw, (max-width: 1920px) 24vw, 640px',
+        };
+      case 'desktop':
+      default:
+        return {
+          width: supportsHover ? 'clamp(260px, 28vw, 520px)' : 'clamp(220px, 38vw, 360px)',
+          maxWidth: supportsHover ? 'min(28vw, 540px)' : 'min(38vw, 380px)',
+          aspectRatio: supportsHover ? '400 / 531' : '3 / 4',
+          imageSizes: supportsHover
+            ? '(max-width: 768px) 90vw, (max-width: 1280px) 40vw, (max-width: 1920px) 28vw, 540px'
+            : '(max-width: 768px) 90vw, (max-width: 1280px) 50vw, 360px',
+        };
+    }
+  })();
 
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.key === 'Enter' || event.key === ' ') {
@@ -44,10 +70,11 @@ export function ProjectCard({
 
   return (
     <motion.div
-      className="relative w-full max-w-[400px] overflow-hidden rounded-[24px] cursor-pointer"
+      className="relative w-full overflow-hidden rounded-[24px] cursor-pointer"
       style={{
-        height: `${cardHeight}px`,
-        aspectRatio: supportsHover ? '400/531' : '3/4',
+        width: widthStyle.width,
+        maxWidth: widthStyle.maxWidth,
+        aspectRatio: widthStyle.aspectRatio,
         boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.15)',
         backdropFilter: 'blur(12px)'
       }}
@@ -87,7 +114,7 @@ export function ProjectCard({
           className={`object-cover transition-all duration-500 ${
             showColor ? 'grayscale-0' : 'grayscale'
           }`}
-          sizes="(max-width: 768px) 100vw, 50vw"
+          sizes={widthStyle.imageSizes}
         />
       </div>
 

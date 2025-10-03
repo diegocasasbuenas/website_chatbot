@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+"use client";
+
+import React from "react";
 
 interface SkillNodeProps {
   title?: string;
@@ -7,19 +8,26 @@ interface SkillNodeProps {
   className?: string;
   children?: React.ReactNode;
   style?: React.CSSProperties;
-  // ...existing code...
+  size?: number;
 }
 
-export function SkillNode({ title, onClick, className = "", children, style }: SkillNodeProps) {
+export function SkillNode({
+  title,
+  onClick,
+  className = "",
+  children,
+  style,
+  size = 75,
+}: SkillNodeProps) {
   const glassStyle = {
-    border: '1px solid rgba(255, 255, 255, 0.25)',
-    background: 'linear-gradient(91deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.05) 100%)',
-    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.15)',
-    backdropFilter: 'blur(12px)',
-  };
+    border: "1px solid rgba(255, 255, 255, 0.25)",
+    background: "linear-gradient(91deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.05) 100%)",
+    boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.15)",
+    backdropFilter: "blur(12px)",
+  } as const;
 
-  // Sin animación, solo posición estática
-  let staticStyle = { ...style };
+  const resolvedSize = size;
+  const fontSize = Math.max(Math.min(resolvedSize * 0.22, 18), 12);
 
   return (
     <div
@@ -34,16 +42,18 @@ export function SkillNode({ title, onClick, className = "", children, style }: S
       `}
       style={{
         ...glassStyle,
-        ...staticStyle,
-        position: 'absolute',
-        width: '75px',
-        height: '75px',
+        ...style,
+        position: "absolute",
+        width: resolvedSize,
+        height: resolvedSize,
         flexShrink: 0,
       }}
       onClick={onClick}
     >
-      {/* Text with same styles as heart text */}
-      <span className="text-white text-center font-general text-base font-medium whitespace-nowrap px-1">
+      <span
+        className="text-white text-center font-general font-medium whitespace-nowrap px-1"
+        style={{ fontSize }}
+      >
         {title || children}
       </span>
     </div>

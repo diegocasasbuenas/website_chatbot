@@ -3,6 +3,7 @@ import { ProjectCard } from "@/app/components/ui";
 import { projectsData } from "@/app/constants/content";
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useWindowSize } from "@/hooks/useWindowSize";
 
 export function ProjectsSection() {
   const [hoveredProject, setHoveredProject] = useState<{
@@ -11,6 +12,15 @@ export function ProjectsSection() {
   } | null>(null);
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const { width: viewportWidth } = useWindowSize();
+
+  const cardVariant: 'mobile' | 'desktop' | 'wide' = viewportWidth
+    ? viewportWidth < 768
+      ? 'mobile'
+      : viewportWidth >= 1600
+        ? 'wide'
+        : 'desktop'
+    : 'desktop';
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -119,6 +129,7 @@ export function ProjectsSection() {
                     isActive={selectedProjectId === project.id}
                     onToggle={() => setSelectedProjectId((prev) => prev === project.id ? null : project.id)}
                     supportsHover={!isTouchDevice}
+                    variant={cardVariant}
                     onHighlightChange={(highlighted) => {
                       if (isTouchDevice) return;
                       if (highlighted) {

@@ -8,6 +8,7 @@ import { SkillNode } from '../ui/SkillNode';
 import { GlassCard } from '../ui/GlassCard';
 import { skillsData } from '../../constants/content';
 import { calculateNodePositions, calculateContainerSize } from '../../lib/skillsLayout';
+import { useWindowSize } from '@/hooks/useWindowSize';
 
 export function SkillsSection() {
   // Estado para el nodo seleccionado
@@ -19,7 +20,6 @@ export function SkillsSection() {
   }>(null);
   // Estado para controlar el render del texto Explore
   const [showExploreText, setShowExploreText] = React.useState(true);
-  const [isMobile, setIsMobile] = React.useState(false);
 
   // Cuando se selecciona un nodo, ocultar el texto Explore
   React.useEffect(() => {
@@ -31,43 +31,154 @@ export function SkillsSection() {
       return () => clearTimeout(timeout);
     }
   }, [selectedNode]);
-  // Calcular posiciones automáticamente con configuración fija
-  const calculatedData = useMemo(() => {
+  const { width: viewportWidth, height: viewportHeight } = useWindowSize();
+
+  const graphMetrics = useMemo(() => {
+    const mobileLayout = viewportWidth > 0 ? viewportWidth < 768 : false;
+    const stackedLayout = !mobileLayout && viewportWidth > 0 && viewportWidth < 1300;
+
+    const baseWidth = viewportWidth >= 1300 ? 940 : 860;
+    const baseHeight = viewportWidth >= 1300 ? 650 : 600;
+    const baseNodeSize = viewportWidth >= 1300 ? 84 : 78;
+
+    const horizontalAllowance = viewportWidth >= 1300
+      ? (stackedLayout ? Math.max(520, viewportWidth * 0.32) : 260)
+      : viewportWidth >= 768
+        ? 220
+        : 90;
+
+    const verticalAllowance = mobileLayout ? 260 : 210;
+
+    const reservedWidth = viewportWidth > 0
+      ? Math.max(viewportWidth - horizontalAllowance, baseWidth * 0.7)
+      : baseWidth;
+
+    const reservedHeight = viewportHeight > 0
+      ? Math.max(viewportHeight - verticalAllowance, baseHeight * 0.7)
+      : baseHeight;
+
+    const widthFactor = reservedWidth / baseWidth;
+    const heightFactor = reservedHeight / baseHeight;
+    let scale = Math.max(0.7, Math.min(Math.min(widthFactor, heightFactor), viewportWidth >= 1600 ? 1.35 : 1.25));
+
+    let nodeSize = baseNodeSize * scale;
+    let childNodeSize = nodeSize * 0.78;
+    let containerWidth = baseWidth * scale;
+    let containerHeight = baseHeight * scale;
+    let parentRadius = (viewportWidth >= 1300 ? 245 : 220) * scale;
+    let childRadius = (viewportWidth >= 1300 ? 198 : 180) * scale;
+
     const config = {
-      containerWidth: 800,
-      containerHeight: 500,
-      nodeSize: 75,
-      minSpacing: 120,
-      heartPosition: { x: 400, y: 250 }
+      containerWidth,
+      containerHeight,
+      nodeSize,
+      minSpacing: 110 * scale,
+      heartPosition: { x: (containerWidth - nodeSize) / 2, y: (containerHeight - nodeSize) / 2 },
+      parentRadius,
+      childRadius,
     };
+
     const nodes = calculateNodePositions(skillsData.parentNodes, config);
     const containerSize = calculateContainerSize(nodes, config);
+
+    const availableWidth = Math.max(reservedWidth, stackedLayout ? 520 : 420);
+    const availableHeight = Math.max(reservedHeight, 420);
+
+    let adjustment = 1;
+    if (containerSize.width > availableWidth) {
+      adjustment = Math.min(adjustment, availableWidth / containerSize.width);
+    }
+    if (containerSize.height > availableHeight) {
+      adjustment = Math.min(adjustment, availableHeight / containerSize.height);
+    }
+
+    let adjustedNodes = nodes;
+    let adjustedContainer = containerSize;
+    let adjustedHeart = {
+      x: (containerSize.width - nodeSize) / 2,
+      y: (containerSize.height - nodeSize) / 2,
+    };
+
+    if (adjustment < 1) {
+      const scalePositions = (value: number) => value * adjustment;
+      adjustedNodes = nodes.map((parent) => ({
+        ...parent,
+        position: {
+          x: scalePositions(parent.position.x),
+          y: scalePositions(parent.position.y),
+        },
+        children: parent.children.map((child) => ({
+          ...child,
+          position: {
+            x: scalePositions(child.position.x),
+            y: scalePositions(child.position.y),
+          },
+        })),
+      }));
+
+      adjustedContainer = {
+        width: containerSize.width * adjustment,
+        height: containerSize.height * adjustment,
+      };
+
+      nodeSize *= adjustment;
+      childNodeSize *= adjustment;
+      parentRadius *= adjustment;
+      childRadius *= adjustment;
+      scale *= adjustment;
+
+      adjustedHeart = {
+        x: (adjustedContainer.width - nodeSize) / 2,
+        y: (adjustedContainer.height - nodeSize) / 2,
+      };
+    } else {
+      adjustedHeart = {
+        x: (containerSize.width - nodeSize) / 2,
+        y: (containerSize.height - nodeSize) / 2,
+      };
+    }
+
     return {
-      nodes,
-      containerSize,
-      heartPosition: config.heartPosition
+      nodes: adjustedNodes,
+      containerSize: adjustedContainer,
+      heartPosition: adjustedHeart,
+      nodeSize,
+      childNodeSize,
+      scale,
+      isStackedLayout: stackedLayout,
+      isMobile: mobileLayout,
     };
-  }, []);
+  }, [viewportWidth, viewportHeight]);
 
-  const calculatedNodes = calculatedData.nodes;
-  const containerSize = calculatedData.containerSize;
-  const heartPosition = calculatedData.heartPosition;
+  const { isMobile, isStackedLayout } = graphMetrics;
 
+  const calculatedNodes = graphMetrics.nodes;
+  const containerSize = graphMetrics.containerSize;
+  const heartPosition = graphMetrics.heartPosition;
+  const parentNodeSize = graphMetrics.nodeSize;
+  const childNodeSize = graphMetrics.childNodeSize;
+  const connectionStroke = Math.max(1.5 * graphMetrics.scale, 1);
 
-  React.useEffect(() => {
-    if (typeof window === 'undefined') return;
+  const layoutWrapperClass = [
+    'flex-1 flex flex-col items-center justify-center gap-12 px-4 md:px-8',
+    !isStackedLayout ? 'xl:flex-row xl:items-center' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
 
-    const updateIsMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
+  const contentWrapperClass = [
+    'flex flex-col items-center justify-center w-full gap-10',
+    !isStackedLayout ? 'xl:flex-row xl:items-center xl:justify-center' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
 
-    updateIsMobile();
-    window.addEventListener('resize', updateIsMobile);
-
-    return () => {
-      window.removeEventListener('resize', updateIsMobile);
-    };
-  }, []);
+  const infoPanelClass = [
+    'flex flex-col items-start justify-center w-full min-w-[200px] max-w-[400px] mb-6 select-none text-left self-center',
+    !isStackedLayout ? 'xl:w-[340px] xl:mr-4 xl:mb-0' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   if (isMobile) {
     return (
@@ -166,8 +277,8 @@ export function SkillsSection() {
   // Función para generar todas las líneas de conexión (estáticas)
   const renderConnections = () => {
     const connections: React.ReactElement[] = [];
-    const nodeRadius = 37.5;
-    const connectionOffset = 25;
+    const nodeRadius = parentNodeSize / 2;
+    const connectionOffset = nodeRadius * 0.6;
     calculatedNodes.forEach((parentNode) => {
       const heartCenter = { x: heartPosition.x + nodeRadius, y: heartPosition.y + nodeRadius };
       const parentCenter = { x: parentNode.position.x + nodeRadius, y: parentNode.position.y + nodeRadius };
@@ -180,28 +291,30 @@ export function SkillsSection() {
         const parentEdgeX = parentCenter.x - (dx / distance) * connectionOffset;
         const parentEdgeY = parentCenter.y - (dy / distance) * connectionOffset;
         connections.push(
-          <line
-            key={`heart-to-${parentNode.id}`}
-            x1={heartEdgeX}
-            y1={heartEdgeY}
-            x2={parentEdgeX}
-            y2={parentEdgeY}
-            stroke="rgba(255, 255, 255, 0.6)"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-        );
+            <line
+              key={`heart-to-${parentNode.id}`}
+              x1={heartEdgeX}
+              y1={heartEdgeY}
+              x2={parentEdgeX}
+              y2={parentEdgeY}
+              stroke="rgba(255, 255, 255, 0.6)"
+              strokeWidth={connectionStroke}
+              strokeLinecap="round"
+            />
+          );
       }
       parentNode.children.forEach((childNode) => {
-        const childCenter = { x: childNode.position.x + nodeRadius, y: childNode.position.y + nodeRadius };
+        const childRadius = childNodeSize / 2;
+        const childCenter = { x: childNode.position.x + childRadius, y: childNode.position.y + childRadius };
         const childDx = childCenter.x - parentCenter.x;
         const childDy = childCenter.y - parentCenter.y;
         const childDistance = Math.sqrt(childDx * childDx + childDy * childDy);
         if (childDistance > 0) {
           const parentToChildEdgeX = parentCenter.x + (childDx / childDistance) * connectionOffset;
           const parentToChildEdgeY = parentCenter.y + (childDy / childDistance) * connectionOffset;
-          const childFromParentEdgeX = childCenter.x - (childDx / childDistance) * connectionOffset;
-          const childFromParentEdgeY = childCenter.y - (childDy / childDistance) * connectionOffset;
+          const childConnectionOffset = childRadius * 0.55;
+          const childFromParentEdgeX = childCenter.x - (childDx / childDistance) * childConnectionOffset;
+          const childFromParentEdgeY = childCenter.y - (childDy / childDistance) * childConnectionOffset;
           connections.push(
             <line
               key={`${parentNode.id}-to-${childNode.id}`}
@@ -210,7 +323,7 @@ export function SkillsSection() {
               x2={childFromParentEdgeX}
               y2={childFromParentEdgeY}
               stroke="rgba(255, 255, 255, 0.6)"
-              strokeWidth="2"
+              strokeWidth={connectionStroke * 0.9}
               strokeLinecap="round"
             />
           );
@@ -227,15 +340,15 @@ export function SkillsSection() {
       className="bg-background/50 relative"
     >
       {/* Contenido principal */}
-  <div className="flex-1 flex flex-col md:flex-row items-center justify-center gap-12 px-4 md:px-8">
+  <div className={layoutWrapperClass}>
         {/* Wrapper centrado vertical y horizontal */}
-        <div className="flex flex-col md:flex-row items-center justify-center w-full">
+        <div className={contentWrapperClass}>
           {/* Texto informativo a la izquierda */}
           {/* Si hay nodo seleccionado, mostrar el glass info. Si no, mostrar el texto Explore */}
           <AnimatePresence>
             {selectedNode && (
               <motion.div
-                className="w-full md:w-[340px] min-w-[200px] max-w-[400px] md:mr-2 mb-6 md:mb-0 select-none"
+                className={infoPanelClass}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
@@ -269,7 +382,7 @@ export function SkillsSection() {
             )}
           </AnimatePresence>
           {showExploreText && !selectedNode && (
-            <div className="flex flex-col items-start justify-center w-full md:w-[340px] min-w-[200px] max-w-[400px] md:mr-2 mb-6 md:mb-0 select-none text-left">
+            <div className={infoPanelClass}>
               <h2
                 className="font-satoshi text-white font-bold text-[24px] leading-normal mb-3"
               >
@@ -284,10 +397,12 @@ export function SkillsSection() {
           )}
           {/* Gráfico de skills */}
           <div 
-            className="relative flex items-center justify-center"
+            className="relative flex items-center justify-center shrink-0 self-center"
             style={{
               width: containerSize.width,
-              height: containerSize.height
+              height: containerSize.height,
+              maxWidth: '100%',
+              overflow: 'visible'
             }}
           >
             {/* Líneas de conexión */}
@@ -302,6 +417,7 @@ export function SkillsSection() {
             {/* Nodo central (corazón) */}
             <HeartNode 
               text={skillsData.centerNode}
+              size={parentNodeSize * 1.05}
               style={{
                 position: 'absolute',
                 left: heartPosition.x,
@@ -313,6 +429,7 @@ export function SkillsSection() {
               <SkillNode
                 key={parentNode.id}
                 title={parentNode.title}
+                size={parentNodeSize}
                 style={{
                   position: 'absolute',
                   left: parentNode.position.x,
@@ -332,6 +449,7 @@ export function SkillsSection() {
                 <SkillNode
                   key={childNode.id}
                   title={childNode.title}
+                  size={childNodeSize}
                   style={{
                     position: 'absolute',
                     left: childNode.position.x,

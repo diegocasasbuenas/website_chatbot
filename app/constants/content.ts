@@ -85,44 +85,44 @@ export const servicesData = [
 export const projectsData = [
   {
     id: "project-1",
-    title: "RAG-Powered Legal Assistant",
-    description: "Intelligent chatbot that processes legal documents and provides contextual responses using Retrieval-Augmented Generation.",
+    title: "AI Insurance Policy Chatbot",
+    description: "Dual assistant that helps employees and clients query insurance policies with instant, accurate responses.",
     image: "/images/projects/1.png"
   },
   {
     id: "project-2", 
-    title: "Automated ML Pipeline",
-    description: "End-to-end machine learning pipeline for time series forecasting with automated model selection and deployment.",
+    title: "Oil Production Forecasting Agent",
+    description: "LLM-powered analytical agent that produces approximate oil production forecasts to support strategic decisions.",
     image: "/images/projects/2.png"
   },
   {
     id: "project-3",
-    title: "Real-time Object Detection",
-    description: "Computer vision application for real-time object detection and classification using advanced deep learning models.",
+    title: "Image Classification with Deep Learning",
+    description: "ResNet and Vision Transformer models that classify and label images for industries such as retail and healthcare.",
     image: "/images/projects/3.png"
   },
   {
     id: "project-4",
-    title: "Domain-Specific LLM Fine-tuning",
-    description: "Fine-tuned language model for specialized industry knowledge with custom training pipeline and evaluation metrics.",
+    title: "Custom Fine-Tuned LLMs with RAG",
+    description: "Open-source LLM fine-tuning pipeline with RAG inference served via FastAPI, enabling custom personalities and APIs.",
     image: "/images/projects/4.png"
   },
   {
     id: "project-5",
-    title: "Business Intelligence Dashboard",
-    description: "Interactive dashboard for business analytics with real-time data visualization and automated reporting capabilities.",
+    title: "Automated AI Dashboards",
+    description: "Interactive dashboards wired to ML models, delivering real-time insights, automated reports, and predictive analytics.",
     image: "/images/projects/5.png"
   },
   {
     id: "project-6",
-    title: "Multi-Agent Workflow System",
-    description: "Intelligent agent system that automates complex business workflows using MCP (Model Context Protocol) integration.",
+    title: "Multi-Agent Process Automation",
+    description: "Network of autonomous agents that execute complex workflows while users interact through a single conversational LLM.",
     image: "/images/projects/6.png"
   },
   {
     id: "project-7",
-    title: "Neural Network Optimization Platform",
-    description: "Advanced platform for neural architecture search and hyperparameter optimization using evolutionary algorithms and distributed computing.",
+    title: "AI Product Development Platform",
+    description: "End-to-end AI product design—from training neural networks to deploying scalable APIs with key-based access.",
     image: "/images/projects/7.png"
   }
 ];

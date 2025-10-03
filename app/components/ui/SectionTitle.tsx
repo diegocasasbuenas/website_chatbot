@@ -10,11 +10,12 @@ export function SectionTitle({ children, className = '' }: SectionTitleProps) {
     <h1 
       className={`
         text-white 
-        text-[clamp(45px,7vw,168px)]
-        sm:text-[clamp(60px,9vw,168px)]
-        md:text-[clamp(80px,11vw,168px)]
-        lg:text-[clamp(100px,13vw,168px)]
-        xl:text-[168px]
+        text-[clamp(26px,3.8vw,80px)]
+        sm:text-[clamp(36px,5vw,98px)]
+        md:text-[clamp(46px,6.2vw,116px)]
+        lg:text-[clamp(58px,7.4vw,134px)]
+        xl:text-[clamp(68px,8.4vw,150px)]
+        2xl:text-[clamp(80px,8.8vw,165px)]
         font-[900] 
         leading-[95%] 
         tracking-[-1px]
@@ -22,17 +23,13 @@ export function SectionTitle({ children, className = '' }: SectionTitleProps) {
         md:tracking-[-3px]
         lg:tracking-[-5px]
         xl:tracking-[-8.4px]
-        break-words
-        hyphens-auto
-        overflow-wrap-break-word
+        overflow-visible
         ${className}
       `}
       style={{
         fontFamily: 'var(--font-satoshi)',
         fontWeight: 900,
-        lineHeight: '95%',
-        wordBreak: 'break-word',
-        overflowWrap: 'break-word'
+        lineHeight: '95%'
       }}
     >
       {children}

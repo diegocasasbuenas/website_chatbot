@@ -69,24 +69,22 @@ export function HeroSection() {
       <SectionTitle className="text-center">
         {/* Layout móvil y tablet: AI Developer debajo */}
         <div className="block xl:hidden">
-          <span className="block">DIEGO</span>
-          <span className="block">CASASBUENAS</span>
+          <span className="block whitespace-nowrap">DIEGO</span>
+          <span className="block whitespace-nowrap">CASASBUENAS</span>
           <span className="block text-white font-general text-[clamp(24px,5vw,48px)] font-light italic leading-normal tracking-tight mt-4">
             AI Developer
           </span>
         </div>
 
         {/* Layout desktop: AI Developer al lado */}
-        <div className="hidden xl:block">
-          <span className="block">
-            <span className="relative inline-block">
-              DIEGO
-              <span className="text-white font-general text-[clamp(48px,6vw,80px)] font-light italic leading-normal tracking-tight absolute bottom-0 left-full ml-4 whitespace-nowrap">
-                AI Developer
-              </span>
-            </span>
+        <div className="hidden xl:flex flex-col items-center gap-3">
+          <div className="flex flex-col items-center leading-none">
+            <span className="block whitespace-nowrap">DIEGO</span>
+            <span className="block whitespace-nowrap">CASASBUENAS</span>
+          </div>
+          <span className="text-white font-general text-[clamp(42px,4vw,72px)] font-light italic leading-tight tracking-tight">
+            AI Developer
           </span>
-          <span className="block">CASASBUENAS</span>
         </div>
       </SectionTitle>
 
@@ -98,7 +96,7 @@ export function HeroSection() {
             animate={{ opacity: 1, height: "auto", y: 0 }}
             exit={{ opacity: 0, height: 0, y: -20 }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
-            className="w-full max-w-[1440px]" // Match the width of the title with max constraint
+            className="w-full max-w-[min(1500px,95vw)]" // Fluid upper bound for large displays
           >
             <GlassCard className="max-h-96 overflow-y-auto scrollbar-hide" ref={chatContainerRef}>
               <div className="space-y-4">
@@ -147,7 +145,7 @@ export function HeroSection() {
       </AnimatePresence>
 
       {/* Input interactivo con botón de envío */}
-      <form onSubmit={handleSubmit} className="w-full max-w-xl flex justify-center px-4">
+      <form onSubmit={handleSubmit} className="w-full max-w-[min(940px,85vw)] flex justify-center px-4">
         <GlassInput 
           placeholder="What would Diego do as your AI copilot?"
           className="flex-1 !rounded-l-[24px] !rounded-r-none"

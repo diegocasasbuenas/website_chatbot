@@ -22,7 +22,13 @@ export function AboutSection() {
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <div className="relative w-72 md:w-80 lg:w-[300px] xl:w-[350px] 2xl:w-[400px]">
+            <div
+              className="relative"
+              style={{
+                width: 'clamp(220px, 32vw, 420px)',
+                maxWidth: '100%'
+              }}
+            >
               <Image
                 src="/images/Portrait.png"
                 alt="Diego Casasbuenas"
