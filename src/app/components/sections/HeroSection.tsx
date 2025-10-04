@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Typography from "../ui/text/Typography";
-import { Bars3Icon } from "@heroicons/react/16/solid";
 import GlassConatainer from "../ui/containers/GlassContainer";
+import { Bars3Icon, EnvelopeIcon } from "@heroicons/react/16/solid";
+import { SiGithub, SiLinkedin } from "react-icons/si";
 
 export function HeroSection() {
   return (
@@ -15,25 +16,35 @@ export function HeroSection() {
             height={36}
           />
         </a>
-        <Bars3Icon className="size-12 cursor-pointer" />
+        <Bars3Icon className="size-10 cursor-pointer" />
       </header>
       <Typography variant="title" className="relative">
         Diego Casasbuenas
-        <Typography
-          variant="subtitle"
-          className="!text-[80px] italic font-general font-light capitalize !tracking-[-4px]"
-        >
-          {/* <Typography variant="subtitle" className="!text-[80px] italic font-general font-light capitalize !tracking-[-4px] absolute top-20 right-15"> */}
+        <span className="block font-general text-[80px] italic font-light capitalize tracking-[-4px]">
           AI Developer
-        </Typography>
+        </span>
       </Typography>
       <div className="flex justify-between items-end">
         <Typography variant="body" className="">
           Meet the human behind the AI
         </Typography>
-        <GlassConatainer>
-            <p>Hola</p>
-        </GlassConatainer>
+        <div className="flex flex-col gap-4 justify-center items-center">
+          <a href="#">
+            <GlassConatainer variant="icon">
+              <SiLinkedin className="text-xl" />
+            </GlassConatainer>
+          </a>
+          <a href="#">
+            <GlassConatainer variant="icon">
+              <SiGithub className="text-xl" />
+            </GlassConatainer>
+          </a>
+          <a href="#">
+            <GlassConatainer variant="icon">
+              <EnvelopeIcon className="size-5" />
+            </GlassConatainer>
+          </a>
+        </div>
       </div>
     </div>
   );
