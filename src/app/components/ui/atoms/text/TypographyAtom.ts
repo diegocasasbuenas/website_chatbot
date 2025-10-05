@@ -9,10 +9,10 @@ type TypographyVariant = "title" | "subtitle" | "body";
 
 const variantStyles: Record<TypographyVariant, string> = {
   title:
-    "text-white font-satoshi text-[168px] font-black uppercase tracking-[-8.4px] leading-none text-center",
+    "text-white font-satoshi text-[clamp(44px,12vw,336px)] tracking-[clamp(-8.4px,-0.5vw,-1px)] font-black uppercase leading-none text-center",
   subtitle:
-    "text-white font-satoshi text-[168px] font-bold tracking-[-8.4px] leading-none text-center",
-  body: "text-white font-general text-[24px] font-normal",
+    "text-white font-satoshi text-[clamp(44px,12vw,336px)] tracking-[clamp(-8.4px,-0.5vw,-1px)] font-bold leading-none text-center",
+  body: "text-white font-general text-[clamp(16px,1vw,24px)] font-normal",
 };
 
 const variantElements: Record<TypographyVariant, ElementType> = {
