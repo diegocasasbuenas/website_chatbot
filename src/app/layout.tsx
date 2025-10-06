@@ -13,8 +13,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`bg-black font-general font-normal text-white`}>
+    <html lang="en" className="no-scrollbar">
+      <body className={`bg-linear-to-r from-black to-[#B39065] font-general font-normal text-white`}>
         {children}
       </body>
     </html>

@@ -12,7 +12,7 @@ export default function HeaderMolecule() {
           height={36}
         />
       </a>
-      <Bars3Icon className="size-10 cursor-pointer" />
+      {/* <Bars3Icon className="size-10 cursor-pointer" /> */}
     </header>
   );
 }
