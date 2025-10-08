@@ -3,12 +3,10 @@ import GlassContainerAtom from "../ui/atoms/containers/GlassContainerAtom";
 import Typography from "../ui/atoms/text/TypographyAtom";
 import HeaderMolecule from "../ui/molecules/HeaderMolecule";
 import InputMolecule from "../ui/molecules/InputMolecule";
-import SocialMediaMolecule from "../ui/molecules/SocialMediaMolecule";
-import BallScrollAnimation from "../ui/atoms/animations/BallScrollAnimationAtom";
 
 export function HeroSection() {
   return (
-    <div className="min-h-screen h-screen p-8 md:p-15 flex flex-col justify-between">
+    <div className="min-h-screen h-screen overflow-y-auto p-8 md:p-15 flex flex-col justify-between">
       <HeaderMolecule />
       <div className="w-full max-w-[3500px] flex flex-col gap-8 justify-center items-center">
         <Typography variant="title" className="relative">
@@ -26,14 +24,11 @@ export function HeroSection() {
       </div>
       <div className="flex justify-center md:justify-between items-end">
         <div className="flex flex-col justify-center items-center md:items-start gap-4">
-          <div className="flex justify-center items-end border-1 rounded-2xl w-4 h-10 pb-1">
-            <BallScrollAnimation />
-          </div>
+          <div className="flex justify-center items-end border-1 rounded-2xl w-4 h-10 pb-1"></div>
           <Typography variant="body" className="">
             Meet the human behind the AI
           </Typography>
         </div>
-        <SocialMediaMolecule />
       </div>
     </div>
   );

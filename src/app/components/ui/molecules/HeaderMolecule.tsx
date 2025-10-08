@@ -1,5 +1,6 @@
 import { Bars3Icon } from "@heroicons/react/16/solid";
 import Image from "next/image";
+import SocialMediaMolecule from "./SocialMediaMolecule";
 
 export default function HeaderMolecule() {
   return (
@@ -12,6 +13,7 @@ export default function HeaderMolecule() {
           height={36}
         />
       </a>
+      <SocialMediaMolecule />
       {/* <Bars3Icon className="size-10 cursor-pointer" /> */}
     </header>
   );

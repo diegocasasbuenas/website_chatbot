@@ -4,7 +4,7 @@ import { EnvelopeIcon } from "@heroicons/react/16/solid";
 
 export default function SocialMediaMolecule() {
   return (
-    <div className="hidden md:flex md:flex-col gap-4 justify-center items-center">
+    <div className="flex gap-4 justify-center items-center">
       <a href="#">
         <GlassContainerAtom variant="icon">
           <SiLinkedin className="text-xl" />
