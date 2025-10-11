@@ -5,7 +5,7 @@ import {
   createElement,
 } from "react";
 
-type TypographyVariant = "title" | "subtitle" | "body" | "sidebar-label";
+type TypographyVariant = "title" | "subtitle" | "body" | "sidebar-label" | "accordion-title";
 
 const variantStyles: Record<TypographyVariant, string> = {
   title:
@@ -13,6 +13,7 @@ const variantStyles: Record<TypographyVariant, string> = {
   subtitle:
     "text-white font-satoshi text-[clamp(44px,11vw,336px)] tracking-[clamp(-8.4px,-0.5vw,-1px)] font-bold leading-none text-center",
   body: "text-white font-general text-[clamp(16px,1vw,24px)] font-normal",
+  "accordion-title": "font-satoshi text-lg font-bold text-white",
   "sidebar-label": "font-general text-md uppercase tracking-wider text-white font-medium whitespace-nowrap [writing-mode:vertical-rl] [text-orientation:mixed] rotate-[180deg]",
 };
 
@@ -21,6 +22,7 @@ const variantElements: Record<TypographyVariant, ElementType> = {
   subtitle: "h2",
   body: "p",
   "sidebar-label": "h3",
+  "accordion-title": "h3",
 };
 
 type TypographyProps<T extends ElementType> = {
