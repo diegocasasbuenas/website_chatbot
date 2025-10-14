@@ -38,7 +38,7 @@ export default function GlobalLayout() {
         <Typography variant="sidebar-label">Diego Casasbuenas</Typography>
       </div>
       {/* Contenedor principal */}
-      <div className="overflow-y-auto scrollbar-none no-scrollbar md:snap-y md:snap-mandatory scroll-smooth">
+      <div className="flex flex-col gap-15 md:gap-0 overflow-y-auto scrollbar-none no-scrollbar md:snap-y md:snap-mandatory scroll-smooth">
         <SectionWrapper id="About" title="Meet Diego">
           <AboutSection />
         </SectionWrapper>

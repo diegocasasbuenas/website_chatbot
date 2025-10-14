@@ -24,7 +24,7 @@ export default function ProjectsSection() {
             src={src}
             alt={`Project ${index + 1}`}
             fill
-            className="object-cover rounded-2xl"
+            className="object-cover rounded-2xl grayscale hover:grayscale-0"
           />
         </div>
       ))}
