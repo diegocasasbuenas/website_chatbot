@@ -12,7 +12,22 @@ export default function GlobalLayout() {
       <div className="hidden md:block"></div>
       {/* Contenedor superior */}
       <div className="border-b-1 border-b-white py-2 px-4 flex justify-between items-center">
-        <a href="#">
+        <a href="#Home">
+          <Typography as="h3">Home</Typography>
+        </a>
+        <a href="#About">
+          <Typography as="h3">Meet Diego</Typography>
+        </a>
+        <a href="#Skills">
+          <Typography as="h3">Skills</Typography>
+        </a>
+        <a href="#Projects">
+          <Typography as="h3">Projects</Typography>
+        </a>
+        <a href="#Services">
+          <Typography as="h3">Services</Typography>
+        </a>
+        <a href="#Contact">
           <Typography as="h3">Contacto</Typography>
         </a>
       </div>
@@ -23,17 +38,17 @@ export default function GlobalLayout() {
         <Typography variant="sidebar-label">Diego Casasbuenas</Typography>
       </div>
       {/* Contenedor principal */}
-      <div className="overflow-y-auto scrollbar-none no-scrollbar">
-        <SectionWrapper title="Meet Diego">
+      <div className="overflow-y-auto scrollbar-none no-scrollbar md:snap-y md:snap-mandatory scroll-smooth">
+        <SectionWrapper id="About" title="Meet Diego">
           <AboutSection />
         </SectionWrapper>
-        <SectionWrapper title="Skills">
+        <SectionWrapper id="Skills" title="Skills">
           <SkillsSection />
         </SectionWrapper>
-        <SectionWrapper title="Projects">
+        <SectionWrapper id="Projects" title="Projects">
           <ProjectsSection />
         </SectionWrapper>
-        <SectionWrapper title="Services">
+        <SectionWrapper id="Services" title="Services">
           <ServicesSection />
         </SectionWrapper>
       </div>

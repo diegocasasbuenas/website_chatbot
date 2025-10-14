@@ -12,8 +12,8 @@ const variantStyles: Record<TypographyVariant, string> = {
     "text-white font-satoshi text-[clamp(44px,12vw,336px)] tracking-[clamp(-8.4px,-0.5vw,-1px)] font-black uppercase leading-none text-center",
   subtitle:
     "text-white font-satoshi text-[clamp(44px,11vw,336px)] tracking-[clamp(-8.4px,-0.5vw,-1px)] font-bold leading-none text-center",
-  body: "text-white font-general text-[clamp(16px,1vw,24px)] font-normal",
-  "accordion-title": "font-satoshi text-lg font-bold text-white",
+  body: "text-white font-general text-[clamp(16px,1.2vw,24px)] font-normal",
+  "accordion-title": "font-satoshi text-2xl font-bold text-white",
   "sidebar-label": "font-general text-md uppercase tracking-wider text-white font-medium whitespace-nowrap [writing-mode:vertical-rl] [text-orientation:mixed] rotate-[180deg]",
 };
 

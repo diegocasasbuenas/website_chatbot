@@ -22,7 +22,7 @@ export default function AccordionMolecule(props: AccordionMoleculeProps) {
   return (
     <div className="w-full">
       {items.map((item, index) => (
-        <div key={index}>
+        <div key={index} className="pb-2">
           <div
             className="flex justify-between py-4 border-b-1 border-b-white cursor-pointer"
             onClick={() => toggle(index)}
@@ -35,7 +35,7 @@ export default function AccordionMolecule(props: AccordionMoleculeProps) {
             )}
           </div>
           {openIndex === index && (
-            <Typography variant="body" className="pt-4">{item.content}</Typography>
+            <Typography variant="body" className="pt-4 whitespace-pre-line">{item.content}</Typography>
           )}
         </div>
       ))}

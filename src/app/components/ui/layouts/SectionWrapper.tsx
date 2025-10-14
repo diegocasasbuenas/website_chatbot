@@ -2,18 +2,23 @@ import { ReactNode } from "react";
 import Typography from "../atoms/text/TypographyAtom";
 
 type SectionWrapperProps = {
+  id: string;
   title: string;
   children: ReactNode;
 };
 
 export default function SectionWrapper({
+  id,
   title,
   children,
 }: SectionWrapperProps) {
   return (
-    <section className="w-full min-h-full h-full border-1 border-red-600 flex flex-col-reverse md:flex-col gap-8 items-center md:items-start p-4 md:p-15">
+    <section
+      id={id}
+      className="w-full md:min-h-full md:h-full flex flex-col-reverse md:flex-col gap-8 items-center md:items-start p-4 md:p-15 snap-start"
+    >
       {children}
-      <Typography variant="subtitle" className="">
+      <Typography variant="subtitle">
         {title}
       </Typography>
     </section>
