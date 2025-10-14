@@ -16,7 +16,7 @@ export default function ProjectsSection() {
       {imageSrc.map((src, index) => (
         <div
           key={index}
-          className={`relative w-full 4xl:w-3/4 h-[475px] md:aspect-[4/3] lg:aspect-[5/3] xl:h-[900px] 2xl:aspect-auto 2xl:h-[1000px] ${
+          className={`relative w-full lg:w-3/4 h-[475px] md:aspect-[4/3] lg:h-[400px] xl:h-[600px] 2xl:h-[800px] ${
             index % 2 !== 0 ? "justify-self-end" : "justify-self-start"
           }`}
         >
