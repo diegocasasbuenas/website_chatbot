@@ -5,7 +5,7 @@ export default function SkillsSection() {
     <div className="w-full h-full flex flex-col md:flex-row justify-center items-center gap-8">
       <div className="text-center md:text-left">
         <Typography variant="accordion-title">
-          Explore Diego's Skills
+          Explore Diego&apos;s Skills
         </Typography>
         <Typography variant="body" className="pt-4">
           Click on each node to discover detailed explanations, related
