@@ -11,7 +11,7 @@ export function HeroSection() {
       <div className="w-full max-w-[3500px] flex flex-col gap-8 justify-center items-center">
         <Typography variant="title" className="relative">
           Diego Casasbuenas
-          <span className="absolute top-[30%] right-[10%] block font-general text-[clamp(16px,4vw,80px)] tracking-[clamp(-1px,-0.5vw,-6px)] italic font-light capitalize">
+          <span className="absolute top-[30%] right-[4%] md:right-[10%] block font-general text-[clamp(16px,4vw,80px)] tracking-[clamp(-1px,-0.5vw,-6px)] italic font-light capitalize">
             AI Developer
           </span>
         </Typography>
