@@ -22,7 +22,7 @@ export default function AboutSection() {
       <Image
         src="/images/Portrait.png"
         alt="Profile Picture"
-        width={450}
+        width={400}
         height={350}
       />
       <AccordionMolecule items={accordionInfo} />
