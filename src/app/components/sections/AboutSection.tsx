@@ -24,7 +24,7 @@ export default function AboutSection() {
         alt="Profile Picture"
         width={450}
         height={350}
-        className="w-full max-w-2xl"
+        className="w-1/2 max-w-2xl"
       />
       <AccordionMolecule items={accordionInfo} />
     </div>
