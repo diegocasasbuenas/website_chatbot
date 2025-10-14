@@ -7,7 +7,7 @@ import SectionWrapper from "./SectionWrapper";
 
 export default function GlobalLayout() {
   return (
-    <section className="w-full min-h-screen max-h-screen grid grid-cols-[1fr] grid-rows-[60px_1fr] md:grid-cols-[60px_1fr] md:grid-rows-[60px_1fr]">
+    <section className="w-full h-screen min-h-screen max-h-screen grid grid-cols-[1fr] grid-rows-[60px_1fr] md:grid-cols-[60px_1fr] md:grid-rows-[60px_1fr] md:snap-start">
       {/* Cubo esquina superior izquierda */}
       <div className="hidden md:block"></div>
       {/* Contenedor superior */}
@@ -38,7 +38,7 @@ export default function GlobalLayout() {
         <Typography variant="sidebar-label">Diego Casasbuenas</Typography>
       </div>
       {/* Contenedor principal */}
-      <div className="flex flex-col gap-15 md:gap-0 overflow-y-auto scrollbar-none no-scrollbar md:snap-y md:snap-mandatory scroll-smooth">
+      <div className="flex flex-col md:snap-y md:snap-mandatory scroll-smooth overflow-y-auto scrollbar-none no-scrollbar gap-15 md:gap-0">
         <SectionWrapper id="About" title="Meet Diego">
           <AboutSection />
         </SectionWrapper>

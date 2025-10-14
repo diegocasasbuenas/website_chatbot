@@ -15,7 +15,7 @@ export default function SectionWrapper({
   return (
     <section
       id={id}
-      className="w-full md:min-h-full md:h-full flex flex-col-reverse md:flex-col gap-8 items-center md:items-start p-4 md:p-15 snap-start"
+      className="w-full md:min-h-full md:h-full flex flex-col-reverse md:flex-col gap-8 items-center md:items-start p-4 md:p-15 md:snap-start"
     >
       {children}
       <Typography variant="subtitle">
