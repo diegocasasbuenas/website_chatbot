@@ -11,24 +11,36 @@ export default function GlobalLayout() {
       {/* Cubo esquina superior izquierda */}
       <div className="hidden md:block"></div>
       {/* Contenedor superior */}
-      <div className="border-b-1 border-b-white py-2 px-4 flex justify-between items-center">
-        <a href="#Home">
+      <div className="border-b-1 border-b-white x-4 flex justify-start items-center gap-4">
+        <a
+          href="#Home"
+          className="min-w-[100px] flex justify-center items-center px-2 h-full"
+        >
           <Typography as="h3">Home</Typography>
         </a>
-        <a href="#About">
+        <a
+          href="#About"
+          className="min-w-[100px] flex justify-center items-center px-2 h-full"
+        >
           <Typography as="h3">Meet Diego</Typography>
         </a>
-        <a href="#Skills">
+        <a
+          href="#Skills"
+          className="min-w-[100px] flex justify-center items-center px-2 h-full"
+        >
           <Typography as="h3">Skills</Typography>
         </a>
-        <a href="#Projects">
+        <a
+          href="#Projects"
+          className="min-w-[100px] flex justify-center items-center px-2 h-full"
+        >
           <Typography as="h3">Projects</Typography>
         </a>
-        <a href="#Services">
+        <a
+          href="#Services"
+          className="min-w-[100px] flex justify-center items-center px-2 h-full"
+        >
           <Typography as="h3">Services</Typography>
-        </a>
-        <a href="#Contact">
-          <Typography as="h3">Contacto</Typography>
         </a>
       </div>
       {/* Contenedor izquierda */}

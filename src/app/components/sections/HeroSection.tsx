@@ -6,7 +6,7 @@ import InputMolecule from "../ui/molecules/InputMolecule";
 
 export function HeroSection() {
   return (
-    <div className="min-h-screen h-screen overflow-y-auto p-8 md:p-15 flex flex-col justify-between md:snap-start">
+    <div id="Home" className="min-h-screen h-screen overflow-y-auto p-8 md:p-15 flex flex-col justify-between md:snap-start">
       <HeaderMolecule />
       <div className="w-full max-w-[3500px] flex flex-col gap-8 justify-center items-center">
         <Typography variant="title" className="relative">
