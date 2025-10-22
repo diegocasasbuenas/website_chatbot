@@ -19,7 +19,11 @@ export default function SectionWrapper({
 }: SectionWrapperProps) {
   const ref = useRef<HTMLElement | null>(null);
 
-  useEffect(() => register(ref.current), [register]);
+  useEffect(() => {
+    const element = ref.current;
+    const unregister = register(element);
+    return unregister;
+  }, [register]);
 
   return (
     <section

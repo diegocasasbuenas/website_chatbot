@@ -1,5 +1,7 @@
 "use client";
 
+import { useCallback, useState } from "react";
+
 import useActiveSection from "@/app/hooks/useActiveSection";
 import AboutSection from "../../sections/AboutSection";
 import ProjectsSection from "../../sections/ProjectsSection";
@@ -7,7 +9,6 @@ import ServicesSection from "../../sections/ServicesSection";
 import SkillsSection from "../../sections/SkillsSection";
 import Typography from "../atoms/text/TypographyAtom";
 import SectionWrapper from "./SectionWrapper";
-import { useRef } from "react";
 
 const navItems = [
   { id: "Home", label: "Home" },
@@ -26,8 +27,14 @@ const sidebarCopy: Record<string, string> = {
 };
 
 export default function GlobalLayout() {
-  const scrollRef = useRef<HTMLDivElement | null>(null);
-  const { activeSection, register } = useActiveSection({ rootRef: scrollRef });
+  const [scrollContainer, setScrollContainer] =
+    useState<HTMLDivElement | null>(null);
+  const { activeSection, register } = useActiveSection({
+    root: scrollContainer,
+  });
+  const handleScrollRef = useCallback((node: HTMLDivElement | null) => {
+    setScrollContainer(node);
+  }, []);
 
   return (
     <section className="w-full h-screen min-h-screen max-h-screen grid grid-cols-[1fr] grid-rows-[60px_1fr] md:grid-cols-[60px_1fr] md:grid-rows-[60px_1fr] md:snap-start">
@@ -64,7 +71,7 @@ export default function GlobalLayout() {
       </div>
       {/* Contenedor principal */}
       <div
-        ref={scrollRef}
+        ref={handleScrollRef}
         className="flex flex-col md:snap-y md:snap-mandatory scroll-smooth overflow-y-auto scrollbar-none no-scrollbar gap-15 md:gap-0"
       >
         <SectionWrapper id="About" title="Meet Diego" register={register}>
