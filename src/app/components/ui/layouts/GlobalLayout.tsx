@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import useActiveSection from "@/app/hooks/useActiveSection";
 import AboutSection from "../../sections/AboutSection";
@@ -8,6 +8,8 @@ import ProjectsSection from "../../sections/ProjectsSection";
 import ServicesSection from "../../sections/ServicesSection";
 import SkillsSection from "../../sections/SkillsSection";
 import Typography from "../atoms/text/TypographyAtom";
+import MobileSectionNavigation from "./MobileSectionNavigation";
+import SectionNavigation from "./SectionNavigation";
 import SectionWrapper from "./SectionWrapper";
 
 const navItems = [
@@ -26,6 +28,8 @@ const sidebarCopy: Record<string, string> = {
   Services: "Services",
 };
 
+const orderedSections = ["About", "Skills", "Projects", "Services"] as const;
+
 export default function GlobalLayout() {
   const [scrollContainer, setScrollContainer] =
     useState<HTMLDivElement | null>(null);
@@ -35,31 +39,57 @@ export default function GlobalLayout() {
   const handleScrollRef = useCallback((node: HTMLDivElement | null) => {
     setScrollContainer(node);
   }, []);
+  const resolvedSection = useMemo(() => {
+    if (
+      activeSection &&
+      orderedSections.includes(activeSection as (typeof orderedSections)[number])
+    ) {
+      return activeSection as (typeof orderedSections)[number];
+    }
+    return orderedSections[0];
+  }, [activeSection]);
+
+  const currentIndex = orderedSections.indexOf(resolvedSection);
+  const previousSectionId =
+    currentIndex > 0 ? orderedSections[currentIndex - 1] : "Home";
+  const nextSectionId =
+    currentIndex < orderedSections.length - 1
+      ? orderedSections[currentIndex + 1]
+      : null;
+
+  const activeLabel = useMemo(() => {
+    const targetId = activeSection ?? resolvedSection;
+    return (
+      navItems.find(({ id }) => id === targetId)?.label ??
+      sidebarCopy[targetId] ??
+      targetId
+    );
+  }, [activeSection, resolvedSection]);
+
+  const scrollToSection = useCallback((sectionId: string | null) => {
+    if (!sectionId) return;
+    const target = document.getElementById(sectionId);
+    target?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
 
   return (
     <section className="w-full h-screen min-h-screen max-h-screen grid grid-cols-[1fr] grid-rows-[60px_1fr] md:grid-cols-[60px_1fr] md:grid-rows-[60px_1fr] md:snap-start">
       {/* Cubo esquina superior izquierda */}
       <div className="hidden md:block"></div>
       {/* Contenedor superior */}
-      <div className="border-b-1 border-b-white x-4 flex justify-start items-center gap-4">
-        {navItems.map(({ id, label }) => {
-          const isActive =
-            activeSection === id || (!activeSection && id === "About");
-          return (
-            <a
-              key={id}
-              href={`#${id}`}
-              aria-current={isActive ? "true" : undefined}
-              className={`min-w-[100px] flex justify-center items-center px-2 h-full transition-colors ${
-                isActive
-                  ? "text-black bg-[#B39065]"
-                  : "text-white/60 hover:text-white"
-              }`}
-            >
-              <Typography as="h3">{label}</Typography>
-            </a>
-          );
-        })}
+      <div className="flex h-full items-center justify-between border-b border-white px-4">
+        <MobileSectionNavigation
+          label={activeLabel}
+          onNavigateUp={() => scrollToSection(previousSectionId)}
+          onNavigateDown={() => scrollToSection(nextSectionId)}
+          disableNavigateUp={!previousSectionId}
+          disableNavigateDown={!nextSectionId}
+        />
+        <SectionNavigation
+          items={navItems}
+          activeSection={activeSection}
+          className="hidden h-full w-full md:flex"
+        />
       </div>
       {/* Contenedor izquierda */}
       <div className="border-r-1 border-r-white hidden md:flex md:flex-col justify-between py-8 px-2 items-center">

@@ -18,7 +18,7 @@ export default function AboutSection() {
   ];
 
   return (
-    <div className="w-full h-full flex flex-col md:flex-row justify-center items-start gap-8">
+    <div className="w-full h-full flex flex-col items-center md:flex-row justify-center md:items-start gap-8">
       <Image
         src="/images/Portrait.png"
         alt="Profile Picture"
