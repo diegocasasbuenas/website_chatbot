@@ -37,8 +37,14 @@
   --breakpoint-4xl: 2560px;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 html {
   scroll-behavior: smooth;
+  scrollbar-width: none; /* Oculta scrollbar */
+  -ms-overflow-style: none; /* IE y Edge antiguos */
 }
 
 /* Ocultar scrollbar en todos los navegadores */

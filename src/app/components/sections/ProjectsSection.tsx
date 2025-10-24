@@ -66,10 +66,10 @@ export default function ProjectsSection() {
   const [activeProjectIndex, setActiveProjectIndex] = useState<number | null>(
     null
   );
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(0);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null); // 👈 por defecto null
 
-  const currentIndex = hoveredIndex ?? 0;
-  const currentProject = projectsData[currentIndex];
+  const currentProject =
+    hoveredIndex !== null ? projectsData[hoveredIndex] : null;
 
   useEffect(() => {
     const hasTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
@@ -81,38 +81,46 @@ export default function ProjectsSection() {
   };
 
   return (
-    <div className="relative w-full h-full grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-15 overflow-y-auto">
-      {projectsData.map((project, index) => {
-        const isActive = activeProjectIndex === index;
-        return (
-          <div
-            key={index}
-            className={`relative w-full lg:w-3/4 h-[475px] md:aspect-[4/3] lg:h-[400px] xl:h-[600px] 2xl:h-[800px] ${
-              index % 2 !== 0 ? "justify-self-end" : "justify-self-start"
-            }`}
-            onBlur={() =>
-              setActiveProjectIndex((prevIndex) =>
-                prevIndex === index ? null : prevIndex
-              )
-            }
-            onMouseEnter={() => setHoveredIndex(index)}
-            onMouseLeave={() =>
-              setHoveredIndex((prev) => (prev === index ? null : prev))
-            }
-          >
-            <Image
-              src={project.image}
-              alt={`Project ${index + 1}`}
-              fill
-              className="object-cover rounded-2xl grayscale hover:grayscale-0 cursor-pointer"
-            />
-          </div>
-        );
-      })}
-      <aside className=" pointer-events-none absolute w-full h-full flex flex-col justify-center items-center">
-        <Typography variant="subtitle">{currentProject.title}</Typography>
-        <Typography variant="body">{currentProject.description}</Typography>
-      </aside>
+    <div className="relative w-full h-full overflow-hidden">
+      <div className="relative w-full h-full grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-15 overflow-y-auto">
+        {projectsData.map((project, index) => {
+          const isActive = activeProjectIndex === index;
+          const isHovered = hoveredIndex === index;
+          
+          return (
+            <div
+              key={index}
+              className={`relative w-full lg:w-3/4 h-[475px] md:aspect-[4/3] lg:h-[400px] xl:h-[600px] 2xl:h-[800px] ${
+                index % 2 !== 0 ? "justify-self-end" : "justify-self-start"
+              }`}
+              onBlur={() =>
+                setActiveProjectIndex((prevIndex) =>
+                  prevIndex === index ? null : prevIndex
+                )
+              }
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() =>
+                setHoveredIndex((prev) => (prev === index ? null : prev))
+              }
+            >
+              <Image
+                src={project.image}
+                alt={`Project ${index + 1}`}
+                fill
+                className="object-cover rounded-2xl grayscale hover:grayscale-0 cursor-pointer"
+              />
+            </div>
+          );
+        })}
+      </div>
+
+      {/* 👇 Solo muestra el aside si hay hover */}
+      {(!isTouch && currentProject) && (
+        <aside className="absolute inset-0 z-10 pointer-events-none flex flex-col justify-center items-center">
+          <Typography variant="subtitle">{currentProject.title}</Typography>
+          <Typography variant="body">{currentProject.description}</Typography>
+        </aside>
+      )}
     </div>
   );
 }

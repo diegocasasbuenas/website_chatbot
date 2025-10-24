@@ -22,7 +22,8 @@ export default function InputMolecule() {
         id="message-input"
         ref={inputRef}
         type="text"
-        placeholder="What would Diego do as your AI copilot?"
+        placeholder="Feature coming soon"
+        disabled
         className="w-full outline-none bg-transparent font-general font-normal"
       />
     </GlassContainerAtom>

@@ -12,9 +12,9 @@ export default function SkillsSection() {
           projects, and the tools behind them.
         </Typography>
       </div>
-      <div className="border-1 border-white w-full h-full min-h-96 flex justify-center items-center">
+      <div className="w-full h-full min-h-96 flex justify-center items-center">
         <Typography variant="body">
-          [Interactive Skill Graph Placeholder]
+          Coming soon...
         </Typography>
       </div>
     </div>

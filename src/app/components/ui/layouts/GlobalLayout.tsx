@@ -93,7 +93,7 @@ export default function GlobalLayout() {
       </div>
       {/* Contenedor izquierda */}
       <div className="border-r-1 border-r-white hidden md:flex md:flex-col justify-between py-8 px-2 items-center">
-        <Typography variant="sidebar-label">AI Engineer</Typography>
+        <Typography variant="sidebar-label">AI Developer</Typography>
         <Typography variant="sidebar-label">
           {sidebarCopy[activeSection ?? "About"] ?? ""}
         </Typography>
