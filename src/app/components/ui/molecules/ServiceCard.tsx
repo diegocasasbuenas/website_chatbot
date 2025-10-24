@@ -1,4 +1,3 @@
-import { BeakerIcon } from "@heroicons/react/16/solid";
 import GlassContainerAtom from "../atoms/containers/GlassContainerAtom";
 import Typography from "../atoms/text/TypographyAtom";
 import { ComponentType, SVGProps } from "react";

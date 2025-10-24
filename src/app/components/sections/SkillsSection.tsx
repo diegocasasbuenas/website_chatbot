@@ -1,4 +1,3 @@
-import Typography from "../ui/atoms/text/TypographyAtom";
 import { SkillsAIInfo } from "../ui/molecules/SkillsAIInfo";
 
 export default function SkillsSection() {

@@ -51,12 +51,11 @@ export default function useActiveSection(options: Options = {}) {
     );
 
     observerRef.current = observer;
-    pendingElementsRef.current.forEach((element) => observer.observe(element));
+    const pendingElements = pendingElementsRef.current;
+    pendingElements.forEach((element) => observer.observe(element));
+    pendingElements.clear();
 
     return () => {
-      pendingElementsRef.current.forEach((element) =>
-        observer.unobserve(element)
-      );
       observer.disconnect();
       observerRef.current = null;
     };
