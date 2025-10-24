@@ -1,4 +1,5 @@
 import Typography from "../ui/atoms/text/TypographyAtom";
+import { SkillsAIInfo } from "../ui/molecules/SkillsAIInfo";
 
 export default function SkillsSection() {
   return (
@@ -12,10 +13,8 @@ export default function SkillsSection() {
           projects, and the tools behind them.
         </Typography>
       </div>
-      <div className="w-full h-full min-h-96 flex justify-center items-center">
-        <Typography variant="body">
-          Coming soon...
-        </Typography>
+      <div className="w-full h-full min-h-96 flex justify-center items-center overflow-y-auto">
+        <SkillsAIInfo />
       </div>
     </div>
   );

@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Typography from "../ui/atoms/text/TypographyAtom";
+import GlassContainerAtom from "../ui/atoms/containers/GlassContainerAtom";
+import { SiGithub } from "react-icons/si";
 
 const projectsData = [
   {
@@ -62,22 +64,23 @@ const projectsData = [
 ];
 
 export default function ProjectsSection() {
-  const [isTouch, setIsTouch] = useState<boolean>(false);
+  const [isTouch, setIsTouch] = useState(false);
   const [activeProjectIndex, setActiveProjectIndex] = useState<number | null>(
     null
   );
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null); // 👈 por defecto null
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-  const currentProject =
-    hoveredIndex !== null ? projectsData[hoveredIndex] : null;
-
+  // Detectar si es touch
   useEffect(() => {
     const hasTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
     setIsTouch(hasTouch);
   }, []);
 
+  const currentProject =
+    !isTouch && hoveredIndex !== null ? projectsData[hoveredIndex] : null;
+
   const toggleCard = (index: number) => {
-    setActiveProjectIndex((prevIndex) => (prevIndex === index ? null : index));
+    setActiveProjectIndex((prev) => (prev === index ? null : index));
   };
 
   return (
@@ -85,38 +88,54 @@ export default function ProjectsSection() {
       <div className="relative w-full h-full grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-15 overflow-y-auto">
         {projectsData.map((project, index) => {
           const isActive = activeProjectIndex === index;
-          const isHovered = hoveredIndex === index;
-          
+
           return (
             <div
-              key={index}
+              key={project.id}
               className={`relative w-full lg:w-3/4 h-[475px] md:aspect-[4/3] lg:h-[400px] xl:h-[600px] 2xl:h-[800px] ${
                 index % 2 !== 0 ? "justify-self-end" : "justify-self-start"
-              }`}
-              onBlur={() =>
-                setActiveProjectIndex((prevIndex) =>
-                  prevIndex === index ? null : prevIndex
-                )
-              }
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() =>
-                setHoveredIndex((prev) => (prev === index ? null : prev))
-              }
+              } rounded-2xl overflow-hidden`}
+              onClick={() => isTouch && toggleCard(index)}
+              onMouseEnter={() => !isTouch && setHoveredIndex(index)}
+              onMouseLeave={() => !isTouch && setHoveredIndex(null)}
             >
               <Image
                 src={project.image}
                 alt={`Project ${index + 1}`}
                 fill
-                className="object-cover rounded-2xl grayscale hover:grayscale-0 cursor-pointer"
+                className={`z-0 object-cover rounded-2xl grayscale hover:grayscale-0 cursor-pointer transition-all duration-300 ${
+                  isActive ? "grayscale-0" : "grayscale hover:grayscale-0"
+                }`}
               />
+
+              {/* 👇 Solo aparece dentro de la card en touch */}
+              {isTouch && isActive && (
+                <div className="absolute inset-0 z-10 flex flex-col justify-end items-start gap-4 bg-black/60 text-white p-6 rounded-2xl transition-all duration-300">
+                  <Typography variant="subtitle" className="text-left">
+                    {project.title}
+                  </Typography>
+                  <Typography variant="body">{project.description}</Typography>
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <GlassContainerAtom variant="button">
+                      <SiGithub className="text-sm" />
+                      <Typography variant="body">View on Github</Typography>
+                    </GlassContainerAtom>
+                  </a>
+                </div>
+              )}
             </div>
           );
         })}
       </div>
 
-      {/* 👇 Solo muestra el aside si hay hover */}
-      {(!isTouch && currentProject) && (
-        <aside className="absolute inset-0 z-10 pointer-events-none flex flex-col justify-center items-center">
+      {/* 👇 El ASIDE solo aparece en desktop (no touch) */}
+      {!isTouch && currentProject && (
+        <aside className="absolute inset-0 z-10 pointer-events-none flex flex-col justify-center items-center text-white p-8 rounded-2xl">
           <Typography variant="subtitle">{currentProject.title}</Typography>
           <Typography variant="body">{currentProject.description}</Typography>
         </aside>

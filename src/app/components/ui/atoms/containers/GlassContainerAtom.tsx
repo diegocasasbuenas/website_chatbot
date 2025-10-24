@@ -8,7 +8,7 @@ const variantStyles: Record<GlassContainerAtomVariant, string> = {
   icon: `${generalStyle} cursor-pointer w-12 h-12 flex justify-center items-center`,
   input: `${generalStyle}`,
   card: `${generalStyle} max-h-[415px] p-8 flex flex-col gap-4 justify-between`,
-  button: `${generalStyle} cursor-pointer p-4 rounded-full flex justify-center items-center`,
+  button: `${generalStyle} cursor-pointer p-4 rounded-full flex justify-center items-center gap-2`,
 };
 
 type GlassContainerProps = {
